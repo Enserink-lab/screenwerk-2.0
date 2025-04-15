@@ -96,7 +96,7 @@ listofCombinations <- combineDrugs(
 ```
 In the function above, we can provide the list of drugs together with a list of doses we just generated. With *.combineDoses=c(2:5)* we specify, which of the doses we want to combine, in that case the doses 2 to 5 are combined, leaving out the lowest and highest dose. With *.noReplicates = 3* we specify how many replicates we want, and with *.drugRepAttrib = "single"* we can specify that only single drug treatments should be replicated. Otherwise this argument can be set to *.drugRepAttrib = "single"*, in which case all drug treatments will be replicated at the given number.
 
-In addition, the pairing of drugs can be specified with the argument *.pairBy*, which allows to combine drugs by solvent *.pairBy = "solvent"* or by custom groups as shown on the example above. In the latter case, it is neccssary to provide a column with the individual groups in the list of drugs. This allows not only individual drugs to be combined with other individual drugs, but also allows that individual drugs a re combined with a group of multiple other drugs. The arguments *.inclusive* and *.exclusive* allow optionally to provide a list of individual drugs, which only those provided drugs will be combined or respectively exclude drugs from being combined alltogether. In the example above we do not limit nor do we exclude any drugs from being combined. 
+In addition, the pairing of drugs can be specified with the argument *.pairBy*, which allows to combine drugs by solvent *.pairBy = "solvent"* or by custom groups as shown on the example above. In the latter case, it is neccssary to provide a column with the individual groups in the list of drugs. This allows not only individual drugs to be combined with other individual drugs, but also allows that individual drugs a re combined with a group of multiple other drugs. The arguments *.inclusive* and *.exclusive* allow optionally to provide a list of individual drugs, which only those provided drugs will be combined or respectively exclude drugs from being combined alltogether. In the example above we do not limit nor do we exclude any drugs from being combined.
 
 This will generate the following data set, with a drug, dose and unit column for each drug pair:
 <img src="https://github.com/Enserink-lab/screenwerk/blob/main/doc/figures/combinations.png?raw=true" align="left"></img><br />
@@ -115,6 +115,15 @@ listofCombinations <- combineDrugs(
   .drugRepAttrib = c("all")
 )
 ```
+
+In order to minimize the number of dispensing to increase the speed of the workflow or keep the use of resources to a minimum, it is possible to reduce the experimental treatment design by removing drug combinations from a full drug-dose combination matrix to a predefined reduced matrix design.
+
+Herefore, we can use the following function:
+```r
+listofCombinations <- reduceDesign(listofCombinations, .design="x")
+```
+We can provide the previously generated list of combinations and specify the reduced design with the argument *.design*. In the example above, the function will remove all drug combinations for every drug combination pair that do not fall in the predifined pattern. As of now, only the X-design is supported, however more reduced designs will follow, such as an "anchored", a "diagonal" and/or a "plus" design.  
+
 
 Now we are ready to use the list of combinations we just generated, to build a dispensing data set. However, in order to do that, we need to provide a few additional files. First, let's generate a list of wells we want to exclude from being dispensed into. This can be achieved using the function below:
 ```r
@@ -210,9 +219,9 @@ This will generate a data set as shown below:<br>
 Now we are ready to generate the dispensing data set:
 ```r
 dispensingData <- generateDispensingData(listofCombinations, listofDrugs, listofDoses, listofVolumes, listofCtrls, listofStockConcentrations, sourcePlate,
-                       listofExWells, .ctrlReplicates = 8, .addUntreated = list(name = "Untreated", replicates = 8),
-                       .finalWellVolume = 5, .plateFormat = 1536, .destinationPlateID = "0521",
-                       .randomizeDispensing = TRUE, .probeDispensing = FALSE)
+                                         listofExWells, .ctrlReplicates = 8, .addUntreated = list(name = "Untreated", replicates = 8),
+                                         .finalWellVolume = 5, .plateFormat = 1536, .destinationPlateID = "PID-0521",
+                                         .randomizeDispensing = TRUE, .backfilling = TRUE, .probeDispensing = FALSE)
 ```
 A short explanation of the arguments:\
 **ctrlReplicates**, sets the number of replicates for the controls provided in the list of controls *listofCtrls*\
@@ -221,6 +230,7 @@ A short explanation of the arguments:\
 **plateFormat**, the plate format used for the destination plates.\
 **destinationPlateID**, a unique destination plate ID, which will be used to generate the destination plate barcode.\
 **randomizeDispensing**, specifying that the drug treatments should be randomized across all plates.\
+**.backfilling**, specifying, if single drug treatments should be backfilled with one unit of the solvent/control so that all drug treatments have the same amount of drug solvent as in the combination treatments (equalizing solvent concentrations in every single well).\
 **probeDispensing**, specifying, if the dispensing should be probed before generating the data set, which will provide a short summary with the number of plates, drug treatments and much more.
 
 For a more detailed explanation, have a look at the R documentation for the package 'screenwerk'.
