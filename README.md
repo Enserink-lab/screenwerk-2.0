@@ -7,7 +7,8 @@ code name: screenwerk   dev: 2.0.0-1   author: roberthanes
 
 
 <img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/screenwerk-2.0.png?raw=true" width="100%" align="left"></img><br />
-<br>
+<br><br>
+
 
 
 The R-package consists of individual functions that can be used to (a) set-up a screen and generate a dispensing file, (b) to read raw measurements and consolidate different data sets, (c) perform a quality control, (d) analyze, (e) report and visualize the results of a drug combination screen.
@@ -19,7 +20,7 @@ install.packages('devtools')
 library(devtools)
 
 # Install R-package from github
-devtools::install_github('Enserink-lab/screenwerk', build = TRUE, build_opts = c("--no-resave-data", "--no-build-vignettes"))
+devtools::install_github('Enserink-lab/screenwerk-2.0', build = TRUE, build_opts = c("--no-resave-data", "--no-build-vignettes"))
 # Load 'screenwerk' package
 library(screenwerk)
 
@@ -61,9 +62,9 @@ listofDoses <- read.csv(file=file.path("inst/extdata/library/listofDoses.csv"), 
 ```
 and run the following function, which converts the list from a human readable wide-format to a long-format:
 ```r
-listofDoses <- generateListofDoses(listofDoses, .dropCol = TRUE)
+listofDoses <- generateListofDoses(listofDoses, .doseIdentifier = "dose", .dropCol = TRUE)
 ```
-Note: *.dropCol = TRUE* drops columns that are not needed.
+It is possible to specify the identifier for the doses with the argument *.doseIdentifier*. In the example above with the imported list of doses, the doses are provided in the columns labelled "1st Dose", "2nd Dose", ... "6th Dose". With the argument *.doseIdentifier = "dose"*, all columns containing the case-insensitive word "dose" will be identified as columns containing the different concentrations of drugs. In addition, the argument *.dropCol = TRUE* drops columns that are not needed.
 
 This will generate a data set that looks like the one below:
 <br>
