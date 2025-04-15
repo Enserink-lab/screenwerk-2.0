@@ -7,7 +7,8 @@ code name: screenwerk   dev: 2.0.0-1   author: roberthanes
 
 
 <img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/screenwerk-2.0.png?raw=true" width="100%" align="left"></img><br />
-<br><br>
+<br>
+<br>
 
 
 
@@ -64,7 +65,7 @@ and run the following function, which converts the list from a human readable wi
 ```r
 listofDoses <- generateListofDoses(listofDoses, .doseIdentifier = "dose", .dropCol = TRUE)
 ```
-It is possible to specify the identifier for the doses with the argument *.doseIdentifier*. In the example above with the imported list of doses, the doses are provided in the columns labelled "1st Dose", "2nd Dose", ... "6th Dose". With the argument *.doseIdentifier = "dose"*, all columns containing the case-insensitive word "dose" will be identified as columns containing the different concentrations of drugs. In addition, the argument *.dropCol = TRUE* drops columns that are not needed.
+It is possible to specify the identifier for the doses with the argument *.doseIdentifier*. In the example above with the imported list of doses, the doses are provided in the columns labelled "1st Dose", "2nd Dose", ... "6th Dose". With the argument *.doseIdentifier = "dose"*, all columns containing the case-insensitive word "dose" will be identified as columns containing the different doses of drugs. In addition, the argument *.dropCol = TRUE* drops columns that are not needed.
 
 This will generate a data set that looks like the one below:
 <br>
@@ -76,11 +77,24 @@ This will generate a data set that looks like the one below:
 
 
 
-Now that we have a list of doses, we can use it to generate a list of combinations:
+Before we can generate the drug combinations from the generated list of doses, we need to import a list of drugs as shown below:
+
 ```r
-listofCombinations <- combineDrugs(listofDoses, .combineDoses=c(2:5), .noReplicates = 3, .drugRepAttrib = "single")
+listofDrugs <- read.csv(file=file.path("inst/extdata/library/listofdrugs.csv"), check.names=FALSE, header=TRUE, stringsAsFactors=FALSE, na.strings="", sep=",", dec=".", skip=0)
 ```
-In the function above, we can provide the list of doses we just generated through the first argument. With *.combineDoses=c(2:5)* we specify, which of the doses we want to combine, in that case the doses 2 to 5 are combined, leaving out the lowest and highest dose out. With *.noReplicates = 3* we specify how many replicates we want, and with *.drugRepAttrib = "single"* we can specify that only single drug treatments should be replicated.
+
+Now that we have a list of drugs and a list of doses, we can use both to generate a list of combinations:
+
+```r
+listofCombinations <- combineDrugs(
+  listofDrugs, listofDoses,
+  .combineDoses=c(2:5),
+  .noReplicates = 3, .drugRepAttrib = "single",
+  .pairBy = "group",
+  .inclusive = NULL, .exclusive = NULL
+)
+```
+In the function above, we can provide the list of drugs together with a list of doses we just generated. With *.combineDoses=c(2:5)* we specify, which of the doses we want to combine, in that case the doses 2 to 5 are combined, leaving out the lowest and highest dose. With *.noReplicates = 3* we specify how many replicates we want, and with *.drugRepAttrib = "single"* we can specify that only single drug treatments should be replicated. Otherwise this argument can be set to *.drugRepAttrib = "single"*, in which case all drug treatments will be replicated at the given number. In addition, the pairing of drugs can be specified with the argument *.pairBy*, which allows to combine drugs by solvent *.pairBy = "solvent"* or by custom groups as shown on the example above. In the latter case, it is neccssary to provide a column with the individual groups in the list of drugs. This allows not only individual drugs to be combined with other individual drugs, but also allows that individual drugs a re combined with a group of multiple other drugs. The arguments *.inclusive* and *.exclusive* allow optionally to provide a list of individual drugs, which only those provided drugs will be combined or respectively exclude drugs from being combined alltogether. In the example above we do not limit nor do we exclude any drugs from being combined. 
 
 This will generate the following data set, with a drug, dose and unit column for each drug pair:
 <img src="https://github.com/Enserink-lab/screenwerk/blob/main/doc/figures/combinations.png?raw=true" align="left"></img><br />
@@ -89,6 +103,16 @@ This will generate the following data set, with a drug, dose and unit column for
 <br>
 <br>
 <br>
+
+Note, in cases where a single drug sensitiviy screens needs to be set up, this can be accomplished with *.combineDoses=FALSE*. In that case, no drugs will be combined and only a list of single drug treatments will be generated, as shown below:
+```r
+listofCombinations <- combineDrugs(
+  listofDoses,
+  .combineDoses=FALSE,
+  .noReplicates = 3,
+  .drugRepAttrib = c("all")
+)
+```
 
 Now we are ready to use the list of combinations we just generated, to build a dispensing data set. However, in order to do that, we need to provide a few additional files. First, let's generate a list of wells we want to exclude from being dispensed into. This can be achieved using the function below:
 ```r
