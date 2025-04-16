@@ -4,6 +4,8 @@
     <referenceItems>
       <referenceItem type="Compound" description="DMSO" displayName="DMSO" colorArgb="-12537367" />
       <referenceItem type="Compound" description="BzCl" displayName="BzCl" colorArgb="-1490880" />
+      <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+      <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
     </referenceItems>
   </referenceItemManager>
   <wellStore>
@@ -344,54 +346,342 @@
           </wellItem>
         </items>
       </well>
-      <well row="2" col="0" />
-      <well row="2" col="1" />
-      <well row="2" col="2" />
-      <well row="2" col="3" />
-      <well row="2" col="4" />
-      <well row="2" col="5" />
-      <well row="2" col="6" />
-      <well row="2" col="7" />
-      <well row="2" col="8" />
-      <well row="2" col="9" />
-      <well row="2" col="10" />
-      <well row="2" col="11" />
-      <well row="2" col="12" />
-      <well row="2" col="13" />
-      <well row="2" col="14" />
-      <well row="2" col="15" />
-      <well row="2" col="16" />
-      <well row="2" col="17" />
-      <well row="2" col="18" />
-      <well row="2" col="19" />
-      <well row="2" col="20" />
-      <well row="2" col="21" />
-      <well row="2" col="22" />
-      <well row="2" col="23" />
-      <well row="3" col="0" />
-      <well row="3" col="1" />
-      <well row="3" col="2" />
-      <well row="3" col="3" />
-      <well row="3" col="4" />
-      <well row="3" col="5" />
-      <well row="3" col="6" />
-      <well row="3" col="7" />
-      <well row="3" col="8" />
-      <well row="3" col="9" />
-      <well row="3" col="10" />
-      <well row="3" col="11" />
-      <well row="3" col="12" />
-      <well row="3" col="13" />
-      <well row="3" col="14" />
-      <well row="3" col="15" />
-      <well row="3" col="16" />
-      <well row="3" col="17" />
-      <well row="3" col="18" />
-      <well row="3" col="19" />
-      <well row="3" col="20" />
-      <well row="3" col="21" />
-      <well row="3" col="22" />
-      <well row="3" col="23" />
+      <well row="2" col="0">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="1">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="2">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="3">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="4">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="5">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="6">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="7">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="8">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="9">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="10">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="11">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="12">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="13">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="14">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="15">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="16">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="17">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="18">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="19">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="20">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="21">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="22">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="2" col="23">
+        <items>
+          <wellItem type="Compound" concentration="100" concentrationUnits="%">
+            <referenceItem type="Compound" description="H2O" displayName="H2O" colorArgb="-12566295" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="0">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="1">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="2">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="3">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="4">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="5">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="6">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="7">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="8">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="9">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="10">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="11">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="12">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="13">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="14">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="15">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="16">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="17">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="18">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="19">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="20">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="21">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="22">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
+      <well row="3" col="23">
+        <items>
+          <wellItem type="Compound" concentration="5" concentrationUnits="%">
+            <referenceItem type="Compound" description="TFA" displayName="TFA" colorArgb="-12523087" />
+          </wellItem>
+        </items>
+      </well>
       <well row="4" col="0" />
       <well row="4" col="1" />
       <well row="4" col="2" />
