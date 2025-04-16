@@ -69,7 +69,7 @@ It is possible to specify the identifier for the doses with the argument *.doseI
 
 This will generate a data set that looks like the one below:
 <br>
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/doses-long.png?raw=true" align="left"></img><br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/doses-long.png?raw=true" align="left" style="float: left; margin: 5px;"></img><br>
 <br>
 <br>
 <br>
