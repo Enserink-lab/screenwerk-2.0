@@ -70,10 +70,7 @@ It is possible to specify the identifier for the doses with the argument *.doseI
 This will generate a data set that looks like the one below:
 <br>
 <img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/doses-long.png?raw=true" align="left"></img><br clear="left">
-<br>
-<br>
-<br>
-<br>
+
 
 
 
@@ -99,12 +96,8 @@ In the function above, we can provide the list of drugs together with a list of 
 In addition, the pairing of drugs can be specified with the argument *.pairBy*, which allows to combine drugs by solvent *.pairBy = "solvent"* or by custom groups as shown on the example above. In the latter case, it is neccssary to provide a column with the individual groups in the list of drugs. This allows not only individual drugs to be combined with other individual drugs, but also allows that individual drugs a re combined with a group of multiple other drugs. The arguments *.inclusive* and *.exclusive* allow optionally to provide a list of individual drugs, which only those provided drugs will be combined or respectively exclude drugs from being combined alltogether. In the example above we do not limit nor do we exclude any drugs from being combined.
 
 This will generate the following data set, with a drug, dose and unit column for each drug pair:
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/combinations.png?raw=true" align="left"></img><br />
-<br>
-<br>
-<br>
-<br>
-<br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/combinations.png?raw=true" align="left"></img><br /><br clear="left">
+
 
 Note, in cases where a single drug sensitiviy screens needs to be set up, this can be accomplished with *.combineDoses=FALSE*. In that case, no drugs will be combined and only a list of single drug treatments will be generated, as shown below:
 ```r
@@ -156,37 +149,21 @@ Now that this is done, we need to provide the following files, in addition to th
  <br>
 
 **The list of drugs can look as shown below:**<br>
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/drugs.png?raw=true" align="left"></img><br />
-<br>
-<br>
-<br>
-<br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/drugs.png?raw=true" align="left"></img><br /><br clear="left">
 
 
 
 **The list of volumes, can be provided as the list of doses in a wide-format:**<br>
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/volumes.png?raw=true" align="left"></img><br />
-<br>
-<br>
-<br>
-<br>
-<br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/volumes.png?raw=true" align="left"></img><br /><br clear="left">
 
 
 
 **The list of controls:**<br>
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/controls.png?raw=true" align="left"></img><br />
-<br>
-<br>
-<br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/controls.png?raw=true" align="left"></img><br /><br clear="left">
 
 
 **The list of stock concentrations:**<br>
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/concentrations.png?raw=true" align="left"></img><br />
-<br>
-<br>
-<br>
-<br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/concentrations.png?raw=true" align="left"></img><br /><br clear="left">
 
 
 Let's import all those files:
@@ -207,13 +184,7 @@ Note: The function will import all .PlateMap files it finds in that folder.
 <br>
 <br>
 This will generate a data set as shown below:<br>
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/sourceplate.png?raw=true" align="left"></img><br />
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/sourceplate.png?raw=true" align="left"></img><br /><br clear="left">
 
 
 Now we are ready to generate the dispensing data set:
@@ -300,11 +271,8 @@ With the raw measurements read, we can now build the final reference data set, u
 Before we do that, we need to import a barcode reference list with the names of the samples used in the drug screen and by associating them to the corresponding plate id and set.
 
 This file can look as shown below:<br>
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/barcode.png?raw=true" align="left"></img><br>
-<br>
-<br>
-<br>
-<br>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/barcode.png?raw=true" align="left"></img><br><br clear="left">
+
 
 and imported with:
 ```r
