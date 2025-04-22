@@ -302,13 +302,13 @@ save(clData, .saveto = "export\", .fileformat = ".csv", .sep = ";")
 
 #### ***QC: quality control***
 Now that we have consolidated the data sets, we can run the first quality control (QC) analysis.
-<br>
+
 This can be accomplished with the following function:
 ```r
 qcdata <- qc(consolidatedData, .saveto = file.path("export\"), .ctrls=list(positive = "BzCl", negative = "all"), .qcMethod = "all")
 ```
 The function *qc* is used to assess the quality of a drug sensitivity screen by looking at the variance and signal distribution between individual controls.
-<br>
+
 With the parameter *.qcMethod*, it is possible to choose between individual quality assessments. At the moment the following quality control methods are available:
 
 **variance** : assessing the variance between individual controls both, across all plates, as well as by individual plate.
