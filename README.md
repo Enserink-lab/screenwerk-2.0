@@ -298,3 +298,29 @@ Once consolidated, the data can be processed for downstream analysis with screen
 save(clData, .saveto = "export\", .fileformat = ".csv", .sep = ";")
 ```
 <br>
+
+
+#### QC: quality control***
+<br>
+Now that we have consolidated the data sets, we can run the first quality control (QC) analysis.
+<br>
+This can be accomplished with the following function:
+```r
+qcdata <- qc(consolidatedData, .saveto = file.path("export\"), .ctrls=list(positive = "BzCl", negative = "all"), .qcMethod = "all")
+```
+The function *qc* is used to assess the quality of a drug sensitivity screen by looking at the variance and signal distribution between individual controls.
+<b>
+With the parameter *.qcMethod*, it is possible to choose between individual quality assessments. At the moment the following quality control methods are available:
+
+**variance** : assessing the variance between individual controls both, across all plates, as well as by individual plate.
+**emptywells** : assessing the signal of empty and untreated wells, this will also include any excluded wells.
+**firstcolumn** : assessing the signal of wells in the first column of each plate.
+**zprime** : assessing the z'-factor based on the distribution between the positive and negative control.
+
+It is also possible to run multiple QC methods at once, or all by simply specifying 'all' in *.qcMethod*, as shown in the example above.
+
+With the argument *.ctrls*, it is possible to specify a list with a set of positive and negative controls for (QC) analysis. The positive control needs to be provided with a single positive control, while the negative control can be a set with any number of negative controls. Alternative the negative control can be set with 'all' leading to the inclusion of all negative controls present in the drug sensitivity screen.
+
+Any plots generated during the QC analysis will be saved to the location provided with *.saveto*.
+
+
