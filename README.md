@@ -324,6 +324,7 @@ Any plots generated during the QC analysis will be saved to the location provide
 
 <br>
 <br>
+
 #### ***Data processing: data normalization and preparation for downstream analysis***
 
 Before the first analytical modules can be run, the data needs to be processed and prepared for downstream analysis.
