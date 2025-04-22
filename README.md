@@ -300,7 +300,7 @@ save(clData, .saveto = "export\", .fileformat = ".csv", .sep = ";")
 <br>
 
 
-#### QC: quality control***
+#### ***QC: quality control***
 <br>
 Now that we have consolidated the data sets, we can run the first quality control (QC) analysis.
 <br>
