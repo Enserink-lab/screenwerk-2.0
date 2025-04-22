@@ -323,3 +323,14 @@ With the argument *.ctrls*, it is possible to specify a list with a set of posit
 Any plots generated during the QC analysis will be saved to the location provided with *.saveto*.
 
 
+#### ***Data processing: data normalization and preparation for downstream analysis***
+
+Before the first analytical modules can be run, the data needs to be processed and prepared for downstream analysis.
+
+With the function *processData*, the raw measurements are being normalized to the positive and corresponding negative controls. Subsequently the data is split into individual data sets, one containing all the controls, another one the single drug treatments and one the combination treatments, if applicable.
+Furthermore, the data is re-formated based on the requirements of the downstream analytical tools. The function will generate a data table and a matrix for each drug pair, representing the dose response between two drugs at each dose.
+
+```r
+processedData <- processData(consolidatedData, .ctrls=list(positive="BzCl"))
+```
+With the argument *.ctrls*, only the positive control is being provided for the normalization process, while the negative control will be retrieved from the data set and used to normalize the corresponding drug treatment. 
