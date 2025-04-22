@@ -323,7 +323,6 @@ With the argument *.ctrls*, it is possible to specify a list with a set of posit
 Any plots generated during the QC analysis will be saved to the location provided with *.saveto*.
 
 <br>
-<br>
 
 #### ***Data processing: data normalization and preparation for downstream analysis***
 
