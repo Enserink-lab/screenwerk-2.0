@@ -58,8 +58,8 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
     }
     
     if(exists("negative", where=.ctrls)){
-    .controls = list(negative = c(unique(sapply(split(subset(ctrlData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive)), 
-                                                      subset(ctrlData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(x$Drug, collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
+    .controls = list(negative = c(unique(sapply(split(subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive)), 
+                                                      subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(x$Drug, collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
                                   consolidatedData[["dispensingData"]][["origData"]][[".addUntreated"]]$name))
     
     message("Negative control provided with ", gsub(",([^,]*)$"," and\\1", paste(.ctrls$negative, collapse = ", ")), ".")
@@ -76,8 +76,8 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
     }
     
     .ctrls$positive = .ctrls$positive
-    .ctrls$negative = c(unique(sapply(split(subset(ctrlData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive)), 
-                                            subset(ctrlData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(x$Drug, collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
+    .ctrls$negative = c(unique(sapply(split(subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive)), 
+                                            subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(x$Drug, collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
                         consolidatedData[["dispensingData"]][["origData"]][[".addUntreated"]]$name)
   }
   

@@ -50,6 +50,9 @@ reduceDesign <- function(listofCombinations, .design="x"){
   }
   
   
+  # Filter out single drug treatments and retain only the combination matrix
+  .listofCombinationDoses <- subset(listofCombinations, as.logical(ave(Drug, ID, FUN = \(x) all(table(x) == 1))))
+  
   for(.id in unique(listofCombinations$ID)){
     
     cat('\r', "[", .id, "/", max(listofCombinations$ID), "] ", "Reducing design for ",  paste(listofCombinations[which(listofCombinations$ID == .id), "Drug"], paste("(", listofCombinations[which(listofCombinations$ID == .id), "Drug.Concentration"], " ", listofCombinations[which(listofCombinations$ID == .id), "Unit"], ")", sep = ""), collapse = " and "), ".", strrep(" ", 50), sep = "")
@@ -66,6 +69,15 @@ reduceDesign <- function(listofCombinations, .design="x"){
     # Extract all drug concentrations for a given drug pair
     .doseList <- setNames(lapply(listofCombinations[which(listofCombinations$ID == .id), "Drug"], function(x) sprintf("%#.4f", sort(unique(listofCombinations[which(listofCombinations$Drug == x), "Drug.Concentration"])))[1:length(unique(listofCombinations[which(listofCombinations$Drug == x), "Drug.Concentration"]))]),
                           listofCombinations[which(listofCombinations$ID == .id), "Drug"])
+    
+    # Retrieve the dose range for the combination matrix based on the indices of the minimum and maximum combination dose in relation to the full range of doses
+    .doseList <- lapply(.doseList, function(x) unlist(x)[
+      unique(sapply(listofCombinations[which(listofCombinations$ID == .id), "Drug"], function(x)
+        match(sprintf("%#.4f", min(.listofCombinationDoses[which(.listofCombinationDoses$Drug %in% x), "Drug.Concentration"])), .doseList[[x]])
+      )):
+        unique(sapply(listofCombinations[which(listofCombinations$ID == .id), "Drug"], function(x)
+          match(sprintf("%#.4f", max(.listofCombinationDoses[which(.listofCombinationDoses$Drug %in% x), "Drug.Concentration"])), .doseList[[x]])
+      ))] )
     
     # Get the number of doses for a drug pair in order to build the matrix of doses
     .noDoses <- max(sapply(.doseList, length))
