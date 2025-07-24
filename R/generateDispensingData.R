@@ -679,15 +679,15 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
   
   # Generate a dispensing summary for the dispensing file
   # Calculate the number of controls
-  .noCtrls <- nrow(listofCtrls) * .ctrlReplicates + ifelse(is.null(.addUntreated), 0, .addUntreated$replicates) + ifelse(length(unique(listofDrugs$SOLVENT)) > 1, nrow(t(combn(unique(listofDrugs$SOLVENT), 2))) * .ctrlReplicates, 0)
+  .noCtrls <- nrow(listofCtrls) * .ctrlReplicates + ifelse(is.null(.addUntreated), 0, .addUntreated$replicates) + ifelse(length(unique(listofDrugs$SOLVENT)) > 1 && !all(!(sapply(subset(listofCombinations, Drug.A != Drug.B), length))), nrow(t(combn(unique(listofDrugs$SOLVENT), 2))) * .ctrlReplicates, 0)
   # Calculate the number of plates:
   # by number of wells needed / number of wells available (w/o excluded wells and wells for controls)
   .noPlates <- ceiling(nrow(listofCombinations) / (.plateFormat-length(listofExWells)-.noCtrls))
   
   # Estimate unique number of drug concentrations for single drug treatments and in combination
   .noDoses <- list(single = as.numeric(unique(with(subset(listofCombinations, Drug.A == Drug.B), by(subset(listofCombinations, Drug.A == Drug.B), INDICES = Drug.A, FUN = function(x){ length(unique(x$Drug.Concentration.A)) })))), 
-                   combination = unique(with(subset(listofCombinations, Drug.A != Drug.B), apply(cbind(by(subset(listofCombinations, Drug.A != Drug.B), INDICES = Drug.A, FUN = function(x){ length(unique(x$Drug.Concentration.A)) }),
-                                                                                                       by(subset(listofCombinations, Drug.A != Drug.B), INDICES = Drug.B, FUN = function(x){ length(unique(x$Drug.Concentration.B)) })), 1, FUN = max))) )
+                   combination = ifelse(all(!(sapply(subset(listofCombinations, Drug.A != Drug.B), length))), 0, unique(with(subset(listofCombinations, Drug.A != Drug.B), apply(cbind(by(subset(listofCombinations, Drug.A != Drug.B), INDICES = Drug.A, FUN = function(x){ length(unique(x$Drug.Concentration.A)) }),
+                                                                                                       by(subset(listofCombinations, Drug.A != Drug.B), INDICES = Drug.B, FUN = function(x){ length(unique(x$Drug.Concentration.B)) })), 1, FUN = max)))) )
   
   .noTreatments <-     as.numeric(nrow(listofCombinations))
   .noCombTreatments <- as.numeric(nrow(subset(listofCombinations, Drug.A != Drug.B)[!duplicated(subset(listofCombinations, Drug.A != Drug.B)[, !(names(subset(listofCombinations, Drug.A != Drug.B)) == "ID")], fromLast = TRUE), ]))
