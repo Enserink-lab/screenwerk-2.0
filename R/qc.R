@@ -118,7 +118,7 @@ qc <- function(consolidatedData, .saveto, .ctrls=list(positive, negative), .qcMe
   } else { 
     if(all(.ctrls$negative == "all")){
       .controls <- c(.ctrls$positive, unique(sapply(split(subset(ctrlData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive)), 
-                                                          subset(ctrlData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(x$Drug, collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
+                                                          subset(ctrlData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(unique(x$Drug), collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
                      consolidatedData[["dispensingData"]][["origData"]][[".addUntreated"]]$name)
     } else {
       .controls <- unlist(.ctrls[unlist(.ctrls) %in% ctrlData$Drug]) }
