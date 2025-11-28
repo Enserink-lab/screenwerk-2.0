@@ -17,7 +17,7 @@ runDRM(processedData, .saveto, .plot)
 Returns an object of type list with the dose-response model, a summary and the estimated ECs.
 }
 \description{
-An essential component of the modular library \pkg{metascreen}, and imperative for the analysis of the experimental data from a drug sensitivity screen.
+An essential component of the modular library \pkg{screenwerk}, and imperative for the analysis of the experimental data from a drug sensitivity screen.
 \emph{\code{runDRM}} is a function that runs the dose-response model for the analysis of single drug treatments. It performs curve fitting using a \emph{four-parameter log-logistic function (LL.4)}, 
 and estimates the EC10, EC50 and EC90. The function also plots the single drug curves by viability and inhibition for each single drug.
 

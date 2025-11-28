@@ -14,7 +14,7 @@ customPlotting(processedData, doseRespModel, .saveto)
 \item{.saveto}{string; path to a folder location where the results are saved to.}
 }
 \description{
-An complementary component of the modular library \pkg{metascreen} providing a set of custom plots for the visualization of drug-dose responses.
+An complementary component of the modular library \pkg{screenwerk} providing a set of custom plots for the visualization of drug-dose responses.
 \emph{\code{customPlotting}} is a function that generates a set of plots that provide an overview of the dose-response between drugs and samples.
 Furthermore, it plots the dose-response matrix for drug combinations along with the dose-response curves for each individual drug pair.
 }

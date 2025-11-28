@@ -1,7 +1,7 @@
 #' Process consolidated data for downstream analysis 
 #'
 #' @description
-#' An essential component of the modular library \pkg{metascreen}, and imperative for the downstream analysis of the experimental data from a drug sensitivity screen.
+#' An essential component of the modular library \pkg{screenwerk}, and imperative for the downstream analysis of the experimental data from a drug sensitivity screen.
 #' \emph{\code{processData}} is a function that normalizes the raw measurements to the positive and negative control, and subsequently splits the data into individual data sets, 
 #' one for the controls, single drug treatments and combination treatments, in case of a drug combination screen. Furthermore, a data table and a matrix is assembled for each drug pair, 
 #' representing the dose response between two drugs at each dose.
@@ -59,7 +59,7 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
     
     if(exists("negative", where=.ctrls)){
     .controls = list(negative = c(unique(sapply(split(subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive)), 
-                                                      subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(x$Drug, collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
+                                                      subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(unique(x$Drug), collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
                                   consolidatedData[["dispensingData"]][["origData"]][[".addUntreated"]]$name))
     
     message("Negative control provided with ", gsub(",([^,]*)$"," and\\1", paste(.ctrls$negative, collapse = ", ")), ".")
@@ -77,7 +77,7 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
     
     .ctrls$positive = .ctrls$positive
     .ctrls$negative = c(unique(sapply(split(subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive)), 
-                                            subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(x$Drug, collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
+                                            subset(analysisData, Drug %in% setdiff(consolidatedData[["dispensingData"]][["dataList"]][["ctrlList"]]$NAME, .ctrls$positive))$Combination.ID), function(x) paste(unique(x$Drug), collapse = "+"), simplify = TRUE, USE.NAMES = FALSE)),
                         consolidatedData[["dispensingData"]][["origData"]][[".addUntreated"]]$name)
   }
   
@@ -93,6 +93,7 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
   analysisData$Plate.Number <- factor(as.numeric(analysisData$Plate.Number), levels = order(unique(analysisData$Plate.Number)))
   
   # Add solvent to data set
+  listofDrugs <- consolidatedData[["dispensingData"]][["origData"]][["listofDrugs"]]
   analysisData <- as.data.frame(append(analysisData, list(Solvent = listofDrugs$SOLVENT[match(analysisData$Drug, listofDrugs$NAME)]), after = grep("^Drug$", colnames(analysisData))))
   analysisData <- transform(analysisData, Solvent = ifelse(Drug %in% ctrlList$NAME, Drug, Solvent))
   analysisData <- transform(analysisData, Solvent = ifelse(Drug == "Untreated", "Untreated", Solvent))
@@ -460,7 +461,7 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
   
   
   # Create an object of S3 class with a list from the attributes of all three vectors
-  object <- list(analysisData = analysisData, splitDataset = synDataset, doserespMatrix = synDRM)
+  object <- list(analysisData = analysisData, splitDataset = synDataset, doserespMatrix = synDRM, .ctrls=list(positive=.ctrls$positive, negative=.ctrls$negative))
   class(object) <- "processedData"
   
   return(object)

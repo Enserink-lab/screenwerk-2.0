@@ -2,7 +2,7 @@ Package: screenwerk
 Type: Package
 Title: A modular library with a set of tools for the design and analysis of 
     drug combination screens
-Version: 2.0.0
+Version: 2.0.2
 Date: 2024-04-18
 Authors@R: person("Robert", "Hanes", ,"robert.hanes@medisin.uio.no",
                   role = c("aut", "cre"),
@@ -26,7 +26,10 @@ Imports:
     graphics,
     bayesynergy,
     rstan,
-    synergyfinder
+    scales,
+    circlize,
+    synergyfinder,
+    ComplexHeatmap
 Depends: 
     R (>= 3.6.0)
 Suggests: 
@@ -36,5 +39,4 @@ Suggests:
 Remotes: ocbe-uio/bayesynergy
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
-
+RoxygenNote: 7.3.3

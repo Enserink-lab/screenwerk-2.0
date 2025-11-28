@@ -1,7 +1,7 @@
 #' Generate a dispensing data set
 #'
 #' @description
-#' An essential component of the modular library \pkg{metascreen}, imperative for the initial set-up of a drug sensitivity screen.
+#' An essential component of the modular library \pkg{screenwerk}, imperative for the initial set-up of a drug sensitivity screen.
 #' \emph{\code{generateDispensingData}} is a function that generates a dispensing data set from a list of drug treatments. 
 #' It allows to probe a hypothetical dispensing prior to generating a dispensing data set or any dispensing files, providing a summary with essential information about the potential dispensing.
 #' 

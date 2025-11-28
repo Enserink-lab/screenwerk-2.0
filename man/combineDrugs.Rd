@@ -38,7 +38,7 @@ combineDrugs(
 Returns an object of class "data.frame", with an essential column of ['drug'] names, ['doses'] and ['units'] for each drug pair.
 }
 \description{
-An complementary component of the modular library \pkg{metascreen}, invaluable for the initial set-up of a drug sensitivity screen.
+An complementary component of the modular library \pkg{screenwerk}, invaluable for the initial set-up of a drug sensitivity screen.
 \emph{\code{combineDrugs}} is a function that combines drugs at selected doses, with each other. These drug combinations are used for the generation of a dispensing file, 
 which is used to dispense drugs accordingly for a high-throughput drug combination screen. Drugs are combined either at all doses from a list or at defined ranges.
 In addition, replicates can be generated either for all drug treatments, or for single drug treatments only.

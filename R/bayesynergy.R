@@ -86,7 +86,7 @@ bayesynergy <- function(processedData, .saveoutput, .plot, .saveto){
   
   for (samplename in names(synDataset)){
 
-    cat("Assembling data set for ", samplename, ".", '\n', sep = "")
+    cat("Assembling data set for ", samplename, ".", sep = "")
     
     
     # Split the synergy data for each sample to create a dose response matrix (drm)
@@ -136,6 +136,8 @@ bayesynergy <- function(processedData, .saveoutput, .plot, .saveto){
         bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]] <- stats::reshape(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]], idvar = c("drugA", "drugB", "drugAconc", "drugBconc"), v.names = "viability", timevar = "id", direction = "wide", new.row.names = NULL, sep = "")
         bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]][bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]] == "NA"] <- NA
         
+        # Add missing drug names for the single drug treatments
+        bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]] <- transform(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]], drugA = drugname, drugB = drugpair)
         
         # Reorder rows based on drug names and drug doses
         bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]] <- bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]][with(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]], order(drugA, drugB, drugAconc, drugBconc)),]
@@ -157,8 +159,11 @@ bayesynergy <- function(processedData, .saveoutput, .plot, .saveto){
       
     }
     
+    cat('\r', "Finished assembling data set for ", samplename, ".", strrep(" ", 100), '\n', sep = "")
+    
+    
     if(samplename == utils::tail(names(synDataset), n = 1L)){
-      cat('\r', "Finished assembling data set for ", samplename, ".", strrep(" ", 100), '\n\n', sep = "")
+      cat(strrep(" ", 100), '\n', sep = "")
       rm(samplename, drugname, drugpair)
     }
     
@@ -184,20 +189,44 @@ bayesynergy <- function(processedData, .saveoutput, .plot, .saveto){
         cat('\r', " > Analyzing synergies for ", samplename, ":", "[", match(drugname, names(bayDFS[[samplename]][["drm"]])), "]", drugname, ":", "[", match(drugpair, names(bayDFS[[samplename]][["drm"]])), "]", drugpair, strrep(" ", 50), sep = " ")
         
         
+        # Function for calculating the lambda parameter 
+        lambda <- function(a, b){
+          (sd(a)^2)/(sd(b)^2)
+        }
+        
+        # Filter data set by cell line and both, the positive and negative controls
+        .lmbdata <- subset(analysisData, Sample == samplename)
+        .lmbdata <- subset(.lmbdata, Drug %in% unique(synDataset[[samplename]][["controlData"]]$Drug))
+        # Group by plate to normalize the controls to each individual plate
+        .lmbdata <- split(.lmbdata, .lmbdata$Destination.Plate.Barcode)
+        
+        # Calculate the median of the positive and negative controls for each plate, respectively
+        .lambda <- mean( sapply(.lmbdata, function(x) lambda(x$CPS[which(x$Drug == processedData$.ctrls$positive)], x$CPS[which(x$Drug == unique(analysisData$Solvent[which(analysisData$Drug == drugname)]))])) )
+        
+        
+        
         # Run bayesynergy for synergy estimations using type 3 (GP with Matérn kernel)
         # Rønneberg, L., Cremaschi, A., Hanes, R., Enserink, J. M., Zucknick, M. (2021) bayesynergy: flexible Bayesian modelling of 
         # synergistic interaction effects in in vitro drug combination experiments. Brief Bioinform 22 (6), bbab251, DOI: 10.1093/bib/bbab251
-        # package version: bayesynergy v2.4.1
+        # package version: bayesynergy v2.5.1
         
         .bayoutput <- tryCatch(withCallingHandlers({
           suppressMessages(suppressWarnings(
             bayesynergy::bayesynergy(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]][["Y"]], 
-                        bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]][["X"]], type = 3,
-                        drug_names = c(gsub("/", " ", drugname), gsub("/", " ", drugpair)), experiment_ID = samplename, units = c(unique(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]]$drugAunit), unique(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]]$drugBunit)),
-                        lower_asymptotes = TRUE, heteroscedastic = TRUE, bayes_factor = TRUE, method = "sampling", refresh = 0)
-          )) }) )
+                                     bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]][["X"]], type = 3,
+                                     drug_names = c(gsub("/", " ", drugname), gsub("/", " ", drugpair)), experiment_ID = samplename, units = c(unique(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]]$drugAunit), unique(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]]$drugBunit)),
+                                     lower_asymptotes = TRUE, heteroscedastic = TRUE, bayes_factor = TRUE, robust = TRUE, pcprior = TRUE, lambda = .lambda,
+                                     method = "sampling", control = list(stepsize_jitter = 0.5, metric = "dense_e"), 
+                                     init_r = 0.5, chains = 2, iter = 2000, warmup = 1000)
+          ))
+          # Return the output from bayesynergy despite the warning message
+        }, warning=function(w){
+          invokeRestart("muffleWarning")
+        }), error=function(e){
+          write_lines(paste("ERROR: ", samplename, " ", drugname, " : ", drugpair, " : ", e, sep = ""), file.path(warningDirectory, "Errors.txt"), append=TRUE)
+        })
         
-
+        
         # Re-run bayesynergy, if the divergent should be above a threshold of 100, with adapt_delta=0.99
         if(exists("divergent", where = .bayoutput)){
           if(all(.bayoutput$divergent > 100, !is.na(.bayoutput$divergent))){
@@ -207,40 +236,53 @@ bayesynergy <- function(processedData, .saveoutput, .plot, .saveto){
                 bayesynergy::bayesynergy(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]][["Y"]], 
                                          bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]][["X"]], type = 3,
                                          drug_names = c(gsub("/", " ", drugname), gsub("/", " ", drugpair)), experiment_ID = samplename, units = c(unique(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]]$drugAunit), unique(bayDFS[[samplename]][["drm"]][[drugname]][[drugpair]]$drugBunit)),
-                                         lower_asymptotes = TRUE, heteroscedastic = TRUE, bayes_factor = TRUE, method = "sampling", control = list(adapt_delta=0.99), refresh = 0)
-              )) }) )
+                                         lower_asymptotes = TRUE, heteroscedastic = TRUE, bayes_factor = TRUE, robust = TRUE, pcprior = TRUE, lambda = .lambda,
+                                         method = "sampling", control = list(adapt_delta=0.99, stepsize_jitter = 0.5, metric = "dense_e"), 
+                                         init_r = 0.5, chains = 2, iter = 2000, warmup = 1000)
+              ))
+              # Return the output from bayesynergy despite the warning message
+            }, warning=function(w){
+              invokeRestart("muffleWarning")
+            }), error=function(e){
+              warningDirectory = "warnings"
+              write_lines(paste("ERROR: ", samplename, " ", drugname, " : ", drugpair, " : ", e, sep = ""), file.path(warningDirectory, "Errors.txt"), append=TRUE)
+            })
             
           }
         }
-
         
         
-        # Save  output to file
+        
+        # Write warning messages to file
+        if(exists("messages", where = .bayoutput)){
+          write_lines(paste("WARNING: ", samplename, " : ", drugname, " : ", drugpair, " : ", gsub("\n", " ", paste(sapply(1:length(.bayoutput$messages), function(x) paste("[", x, "] ", .bayoutput$messages[x], sep = "")), collapse = " ")), "\n", sep = ""), file.path(warningDirectory, "Warnings.txt"), append=TRUE)}
+        
+        # Save bayesynergy output to file
         if(isTRUE(.saveoutput)){
-          if(!file.exists(file.path(.saveto, "results", "data/bayesynergy", samplename, gsub("/", " ", drugname)))){ dir.create(file.path(.saveto, "results", "data/bayesynergy", samplename, gsub("/", " ", drugname)), showWarnings = FALSE, recursive = TRUE)}
-          base::save(.bayoutput, file = file.path(.saveto, "results", "data/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), gsub("/", " ", drugpair), sep = " + ")))
+          if(!file.exists(file.path(.saveto, "data/bayesynergy", samplename, gsub("/", " ", drugname)))){ dir.create(file.path(.saveto, "data/bayesynergy", samplename, gsub("/", " ", drugname)), showWarnings = FALSE, recursive = TRUE)}
+          base::save(.bayoutput, file = file.path(.saveto, "data/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), gsub("/", " ", drugpair), sep = " + ")))
         }
         
-          
+        
         # Extract data from the bayesynergy output
         .VUS <- rstan::extract(.bayoutput$stanfit, pars=c("VUS_syn","VUS_ant","VUS_Delta"))
         .ec50 <- rstan::extract(.bayoutput$stanfit, pars=c("ec50_1","ec50_2"))
         
         # Run summary function on bayesynergy output and extract additional quality control parameters
         .summary <- rstan::summary(.bayoutput$stanfit,pars=intersect(names(rstan::extract(.bayoutput$stanfit)),c("ell","sigma_f","s","ec50_1","ec50_2","VUS_Delta","VUS_syn","VUS_ant")),probs=c(0.025,.5,0.975))$summary
-        .quality <- c(lapply(rstan::extract(.bayoutput$stanfit, pars=c("ell","sigma_f","s")), mean), divergent=rstan::get_num_divergent(.bayoutput$stanfit))
+        .quality <- c(lapply(rstan::extract(.bayoutput$stanfit, pars=c("ell","sigma_f","s")), mean), divergent=rstan::get_num_divergent(.bayoutput$stanfit), max_treedepth=rstan::get_num_max_treedepth(.bayoutput$stanfit))
         
         # Extract the bayesfactor from the bayesynergy output
         .bayesfactor <- .bayoutput$bayesfactor
         
         
-
+        
         
         # Generate bayesynergy plots and save them as png/pdf
         if(isTRUE(.plot)){
-          if(!file.exists(file.path(.saveto, "results", "graphs/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), " + ", gsub("/", " ", drugpair), sep = "")))){ dir.create(file.path(.saveto, "results", "graphs/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), " + ", gsub("/", " ", drugpair), sep = "")), showWarnings = FALSE, recursive = TRUE) }
+          if(!file.exists(file.path(.saveto, "graphs/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), " + ", gsub("/", " ", drugpair), sep = "")))){ dir.create(file.path(.saveto, "graphs/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), " + ", gsub("/", " ", drugpair), sep = "")), showWarnings = FALSE, recursive = TRUE) }
           suppressMessages(
-            plot(.bayoutput, plot3D = FALSE, save_plot = TRUE, path = file.path(.saveto, "results", "graphs/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), " + ", gsub("/", " ", drugpair), "/", sep = "")),
+            plot(.bayoutput, plot3D = FALSE, save_plot = TRUE, path = file.path(.saveto, "graphs/bayesynergy", samplename, gsub("/", " ", drugname), paste(gsub("/", " ", drugname), " + ", gsub("/", " ", drugpair), "/", sep = "")),
                  plotdevice = "png", width = 178, height = 178, units = "mm", res = 300)
           )
         }
@@ -248,14 +290,14 @@ bayesynergy <- function(processedData, .saveoutput, .plot, .saveto){
         
         # Assign data to an object
         .output <- list(VUS=.VUS, ec50=.ec50, summary=.summary, quality=.quality, bayesfactor=.bayesfactor)
-
+        
         # Add drug names as attributes
         attr(.output, "drugname") <- drugname
         attr(.output, "drugpair") <- drugpair
         
         bayDFS[[samplename]][["bayesynergy"]][[drugname]][[drugpair]] <- .output
         
-        rm(.bayoutput, .VUS, .ec50, .summary, .quality, .bayesfactor, .output)
+        rm(.bayoutput, .VUS, .ec50, .summary, .quality, .bayesfactor, .output, .lambda)
         
       }
       

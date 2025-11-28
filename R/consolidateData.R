@@ -1,7 +1,7 @@
 #' Consolidating raw measurements with dispensing data 
 #'
 #' @description
-#' An essential component of the modular library \pkg{metascreen}, and imperative for the post-experimental processing of data from a drug sensitivity screen.
+#' An essential component of the modular library \pkg{screenwerk}, and imperative for the post-experimental processing of data from a drug sensitivity screen.
 #' \emph{\code{consolidateData}} is a function that consolidates raw measurements from an experimental assay with the dispensing data. It is essential for building a reference data set for downstream analysis.
 #' 
 #' @param dispensingData an object of class 'dispensingData'.

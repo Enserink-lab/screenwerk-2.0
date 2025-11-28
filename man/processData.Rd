@@ -15,7 +15,7 @@ processData(consolidatedData, .ctrls = list(positive, negative))
 Returns an object of class S3:processedData
 }
 \description{
-An essential component of the modular library \pkg{metascreen}, and imperative for the downstream analysis of the experimental data from a drug sensitivity screen.
+An essential component of the modular library \pkg{screenwerk}, and imperative for the downstream analysis of the experimental data from a drug sensitivity screen.
 \emph{\code{processData}} is a function that normalizes the raw measurements to the positive and negative control, and subsequently splits the data into individual data sets, 
 one for the controls, single drug treatments and combination treatments, in case of a drug combination screen. Furthermore, a data table and a matrix is assembled for each drug pair, 
 representing the dose response between two drugs at each dose.

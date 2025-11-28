@@ -1,7 +1,7 @@
 #' Quality control (QC) for drug sensitivity screens 
 #'
 #' @description
-#' An essential component of the modular library \pkg{metascreen}, and imperative for the quality assurance of a drug sensitivity screen.
+#' An essential component of the modular library \pkg{screenwerk}, and imperative for the quality assurance of a drug sensitivity screen.
 #' \emph{\code{qc}} is a function that offers a set of quality control analysis tools assessing the variance of individual controls, reporting the z'-factor between the positive and negative controls,
 #' as well as looking at the signal of empty and untreated wells.
 #' 

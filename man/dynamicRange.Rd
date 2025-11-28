@@ -12,7 +12,7 @@ dynamicRange(data, .saveto)
 \item{.saveto}{string; path to a folder location where the results are saved to.}
 }
 \description{
-An complementary component of the modular library \pkg{metascreen} assessing the dynamic drug-activity range for individual drug-dose responses.
+An complementary component of the modular library \pkg{screenwerk} assessing the dynamic drug-activity range for individual drug-dose responses.
 \emph{\code{dynamicRange}} is a function that estimates the dynamic drug-activity range (DDAR) across a number of doses for each drug response and generates a set of plots.
 }
 \details{
