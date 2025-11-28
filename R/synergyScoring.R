@@ -111,7 +111,6 @@ synergyScoring <- function(bayesdata, .saveoutput, .plot, .saveto){
           
           # Calculating additional statistics and parameters
           `Median (syn)` = median(.synergy),
-          `Median (syn)` = median(.synergy),
           `MAD (syn)` = mad(.synergy),
           `Mean (syn)` = abs(.summary["VUS_syn", "mean"]),
           `SEM (syn)` = .summary["VUS_syn", "se_mean"],
