@@ -85,7 +85,8 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
   
   cat('\n', "Positive control specified as '", .ctrls$positive, "'.", '\n', sep = "")
   cat("Negative controls identified as '", gsub(",([^,]*)$"," and\\1", paste(.ctrls$negative, collapse = ", ")), "'.", '\n', sep = "")
-  cat('\r', " > Normalizing data...", strrep(" ", 100), sep = "")
+  cat('\n', sep = "")
+  cat('\r', "> Normalizing data... This step may take some time.", strrep(" ", 100), sep = "")
   
   # Select only essential columns
   analysisData <- analysisData[,c("Sample", "Destination.Plate.Barcode", "Dispensing.Set", "Plate.Number", "Combination.ID", "Drug", "Drug.Concentration", "Unit", "Destination.Well", "CPS")]
@@ -188,6 +189,10 @@ processData <- function(consolidatedData, .ctrls=list(positive, negative)){
   # };x })
   
   for(y in unique(x$Combination.ID)){
+    
+    cat('\r', "> ", "[", format(sum(sapply(analysisData[1:match(unique(x$Destination.Plate.Barcode), names(analysisData))], function(x) length(unique(x$Combination.ID)))) - sum(sapply(analysisData[match(unique(x$Destination.Plate.Barcode), names(analysisData))], function(x) length(unique(x$Combination.ID)))) + match(y, unique(x$Combination.ID)), nsmall=1, big.mark=","), "/", format(sum(sapply(analysisData, function(x) length(unique(x$Combination.ID)))), nsmall=1, big.mark=","), "]", 
+        " Normalizing data set: ", unique(x$Sample), "  Barcode: ",  unique(x$Destination.Plate.Barcode), "  Plate: ", unique(x$Plate.Number), "  ID: ", y, strrep(" ", 100), sep = "")
+    
     # Retrieve CPS (norm.) from the corresponding control based on the solvent of the drug treatment
     # and with multiple controls of the same solvent use the highest concentration (combination-treatment, backfilled single drug treatments), or
     # half the highest concentration (single-treatment, non-backfilled single drug treatments).
