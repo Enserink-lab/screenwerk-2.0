@@ -1,7 +1,7 @@
-#' Generate a list of rows, columns and wells for a given plate format
+#' Generates a list of rows, columns and wells for a given plate format
 #'
 #' @description
-#' A complementary component of the modular library \pkg{metascreen}, valuable for a wide range of analytical task in a drug sensitivity screen. 
+#' A complementary component of the modular library \pkg{screenwerk}, valuable for a wide range of analytical tasks in a drug sensitivity screen. 
 #' \emph{\code{baseplate}} is a function that returns a list of rows, columns and wells associated with a given plate type. 
 #' This tool is helpful for cross-referencing plates and plate layouts from different sources, i.e. different plate readers and other machines that use microplates. 
 #' It proved to be essential in the process of consolidating data sets from different sources, i.e. dispensing files and raw measurement files with different row, column or well designations. 

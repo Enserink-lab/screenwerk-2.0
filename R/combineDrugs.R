@@ -200,6 +200,8 @@ combineDrugs <- function(listofDrugs, listofDoses, .combineDoses, .noReplicates 
   cat('\r', "Drugs succesfully combined!", rep(" ", 29), "\n")
   
   
+  # Preserve numeric formatting of drug concentrations by converting them to characters
+  listofCombinations[grep("Dose", names(listofCombinations), value=TRUE)] <- apply(listofCombinations[grep("Dose", names(listofCombinations), value=TRUE)], MARGIN = 2, FUN = function(i) paste(i))
   # Merge name, dose and unit for each drug pair 
   listofCombinations <- data.frame(Drug.1 = apply(listofCombinations[grep("1", names(listofCombinations), value=TRUE)], MARGIN = 1, FUN = function(i) paste(i, collapse = ":")),
                                    Drug.2 = apply(listofCombinations[grep("2", names(listofCombinations), value=TRUE)], MARGIN = 1, FUN = function(i) paste(i, collapse = ":")))

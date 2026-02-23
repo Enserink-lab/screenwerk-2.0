@@ -96,7 +96,7 @@
 #' @export
 
 generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses, listofVolumes, listofCtrls, listofStockConcentrations, sourcePlate,
-                                   listofExWells, .ctrlReplicates, .addUntreated = FALSE, .finalWellVolume, .plateFormat, .destinationPlateID, 
+                                   listofExWells, .ctrlReplicates, .addUntreated = FALSE, .finalWellVolume = list(volume, unit), .plateFormat, .destinationPlateID, 
                                    .randomizeDispensing = TRUE, .backfilling = TRUE, .probeDispensing = FALSE){
   
   
@@ -256,21 +256,30 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
   }
   
 
-  if(missing(sourcePlate)){stop("Data missing! Please provide a source plate.", call. = TRUE)}
-  if(!is.list(sourcePlate)){
-    stop("in 'sourcePlate'. Argument needs to be an object of class data.frame! Please provide a data frame containing a column with the source plate id ['PlateID'], source plate well ['Well'], the drug ['Drug'] found in that well, the concentration of that drug ['Concentration'], the concentration unit ['Unit'].", call. = TRUE)
-  } else if (!all(sapply(c("plateid", "well", "drug", "dose|conc", "unit"), function(x) any(grepl(x, names(sourcePlate), ignore.case = TRUE))))){stop("in 'sourcePlate'. List of drugs has missing data! Please provide a data frame containing a column with the source plate id ['PlateID'], source plate well ['Well'], the drug ['Drug'] found in that well, the concentration of that drug ['Concentration'], the concentration unit ['Unit'].", call. = TRUE)
-  } else {
-    colnames(sourcePlate)[grepl("plateid", names(sourcePlate), ignore.case = TRUE)] <- "PlateID"
-    colnames(sourcePlate)[grepl("well", names(sourcePlate), ignore.case = TRUE)] <- "Well"
-    colnames(sourcePlate)[grepl("drug", names(sourcePlate), ignore.case = TRUE)] <- "Drug"
-    colnames(sourcePlate)[grepl("dose|conc", names(sourcePlate), ignore.case = TRUE)] <- "Concentration"
-    colnames(sourcePlate)[grepl("unit", names(sourcePlate), ignore.case = TRUE)] <- "Unit"
+  if(missing(sourcePlate)){
+    sourcePlate = FALSE
+  } else if (!identical(sourcePlate, FALSE)){
+    if(!is.list(sourcePlate)){
+      stop("in 'sourcePlate'. Argument needs to be an object of class data.frame! Please provide a data frame containing a column with the source plate id ['PlateID'], source plate well ['Well'], the drug ['Drug'] found in that well, the concentration of that drug ['Concentration'], the concentration unit ['Unit'].", call. = TRUE)
+    } else if (!all(sapply(c("plateid", "well", "drug", "dose|conc", "unit"), function(x) any(grepl(x, names(sourcePlate), ignore.case = TRUE))))){stop("in 'sourcePlate'. List of drugs has missing data! Please provide a data frame containing a column with the source plate id ['PlateID'], source plate well ['Well'], the drug ['Drug'] found in that well, the concentration of that drug ['Concentration'], the concentration unit ['Unit'].", call. = TRUE)
+    } else {
+      colnames(sourcePlate)[grepl("plateid", names(sourcePlate), ignore.case = TRUE)] <- "PlateID"
+      colnames(sourcePlate)[grepl("well", names(sourcePlate), ignore.case = TRUE)] <- "Well"
+      colnames(sourcePlate)[grepl("drug", names(sourcePlate), ignore.case = TRUE)] <- "Drug"
+      colnames(sourcePlate)[grepl("dose|conc", names(sourcePlate), ignore.case = TRUE)] <- "Concentration"
+      colnames(sourcePlate)[grepl("unit", names(sourcePlate), ignore.case = TRUE)] <- "Unit"
+    }
   }
   
   
   # Check, if a final volume has been provided 
-  if(missing(.finalWellVolume)){stop("Data missing! Please provide the final volume found in all wells.", call. = TRUE)}
+  if(missing(.finalWellVolume)){stop("Data missing! Please provide the final volume found in all wells.", call. = TRUE)
+  } else if(class(.finalWellVolume) != "list") { stop("in '.finalWellVolume'. Argument needs to be a list! Please provide a list with the final well volume and the corresponding unit.", call. = TRUE) 
+  } else if(!exists("volume", where=.finalWellVolume)){
+    stop("in '.finalWellVolume'. The final well volume is missing! Please provide a volume.", call. = TRUE)
+  } else if(!exists("unit", where=.finalWellVolume)){
+    stop("in '.finalWellVolume'. The unit of the volume is missing! Please provide a unit.", call. = TRUE)
+  }
   
   # Check, if a destination plate ID has been provided
   if(missing(.destinationPlateID)){stop("Data missing! Please provide a unique destination plate ID.", call. = TRUE)}
@@ -527,7 +536,7 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
   # Fill additional columns that are needed for the dispensing file
   dispensingData[["CAS.number"]] <- ifelse(is.na(dispensingData$CAS.number), drugList$CAS_NUMBER[match(dispensingData$Drug, drugList$NAME)], dispensingData$CAS.number)
   dispensingData[["CAS.number"]] <- ifelse(is.na(dispensingData$CAS.number), ctrlList$CAS_NUMBER[match(dispensingData$Drug, ctrlList$NAME)], dispensingData$CAS.number)
-  dispensingData[["Source.Plate.Barcode"]] <- sourcePlate$PlateID[match(dispensingData$Drug, sourcePlate$Drug)]
+  if(!identical(sourcePlate, FALSE)){ dispensingData[["Source.Plate.Barcode"]] <- sourcePlate$PlateID[match(dispensingData$Drug, sourcePlate$Drug)] }
   
   # Calculate the transfer volume based on the stock and final concentration in relation to the total volume per well 
   # (`Transfer Volume` = finalVolume / ((stocklList$CONCENTRATION[match(`Sample Name`, stocklList$NAME)] * 1000) / `Drug Concentration`))
@@ -565,7 +574,7 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
   # Tech. note: replicate / add only one DMSO entry [rep(1, each = 1)], but adjust the volume to match the highest DMSO concentration per well
   dispensingData <- do.call(rbind, lapply(split(dispensingData, dispensingData$Combination.ID), 
                                           function(x) rbind(x, if(nrow(x) < 2 & !any(x$Drug %in% c(ctrlList$NAME, if(!is.null(.addUntreated)){.addUntreated$name})) & 
-                                                                  all(x$Drug %in% doseList$Drug & !x$Transfer.Volume > .finalWellVolume
+                                                                  all(x$Drug %in% doseList$Drug & ifelse(x$Drug %in% c(ctrlList$NAME, if(!is.null(.addUntreated)){.addUntreated$name}), FALSE, !(x$Transfer.Volume == min(refVolDoseList$Volume[refVolDoseList$Drug == x$Drug])*2))
                                                                   # legacy code, in which the highest dose is dispensed at the double volume compared to other doses    
                                                                   # doseList$DoseID[which(doseList$Drug == x$Drug & doseList$Dose == x$Drug.Concentration)] != length(doseList$DoseID[which(doseList$Drug == x$Drug)])
                                                                   )){
@@ -573,7 +582,7 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
                                             Drug.Concentration = ctrlList$DOSE[which(ctrlList$NAME == x$Solvent & ctrlList$VOLUME == min(ctrlList$VOLUME[which(ctrlList$NAME == x$Solvent)]))];
                                             Unit = ctrlList$UNIT[which(ctrlList$NAME == x$Solvent & ctrlList$VOLUME == min(ctrlList$VOLUME[which(ctrlList$NAME == x$Solvent)]))];
                                             Transfer.Volume = x$Transfer.Volume;
-                                            Source.Plate.Barcode = sourcePlate$PlateID[match(x$Solvent, sourcePlate$Drug)];
+                                            Source.Plate.Barcode = ifelse(!identical(sourcePlate, FALSE), sourcePlate$PlateID[match(x$Solvent, sourcePlate$Drug)], NA);
                                             })} )))
   
   # Remove solvent column from dispensing data
@@ -623,7 +632,9 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
   #                                                    x$Source.Well = sapply(1:nrow(x), function(y){ sourcePlate$Well[grep(x[y,"Drug"], sourcePlate$Drug, fixed = TRUE)][match(as.numeric(format(round(((finalVolume / x[y,"Transfer.Volume"]) * x[y,"Drug.Concentration"]), 9), nsmall = 9)), 
   #                                                                                                                                                                             as.numeric(format(round(sourcePlate$Concentration[sourcePlate$Drug == x[y,"Drug"]], 9), nsmall = 9)))] })
   #                                                    ; x})), NULL))
-
+  
+  if(!identical(sourcePlate, FALSE)){
+  
   # Split data set by source plate
   finalDispensingData <- split(dispensingData, dispensingData$Source.Plate.Barcode)
   # Assign the source well separately for the controls and the drug treatments,
@@ -641,12 +652,11 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
     drugDispensingData <- subset(finalDispensingData[[sP]], !Drug %in% ctrlList$NAME)
     if (nrow(drugDispensingData) != 0){
       drugDispensingData$Source.Well <- sapply(1:nrow(drugDispensingData), function(x){ 
-        # Map the source well by matching the drug name and dose row-wise
-        # Used to map doses from μM to mM, new line used to map doses from nM to mM
-        switch(substring(drugDispensingData[x,"Unit"], 1, 1),
-               μ = { sourcePlate$Well[grep(drugDispensingData[x,"Drug"], sourcePlate$Drug, fixed = TRUE)][mapply(function(x, y) isTRUE(all.equal(x, y, tolerance = 5e-6)), ((.finalWellVolume / drugDispensingData[x,"Transfer.Volume"]) * drugDispensingData[x,"Drug.Concentration"]), sourcePlate$Concentration[grep(drugDispensingData[x,"Drug"], sourcePlate$Drug, fixed = TRUE)])] },
-               n = { sourcePlate$Well[sourcePlate$Drug == drugDispensingData[x,"Drug"]][mapply(function(x, y) isTRUE(all.equal(x, y, tolerance = 5e-2)), ((.finalWellVolume / drugDispensingData[x,"Transfer.Volume"]) * drugDispensingData[x,"Drug.Concentration"]), sourcePlate$Concentration[sourcePlate$Drug == drugDispensingData[x,"Drug"]]*1000)] },
-               { sourcePlate$Well[grep(drugDispensingData[x,"Drug"], sourcePlate$Drug, fixed = TRUE)][mapply(function(x, y) isTRUE(all.equal(x, y, tolerance = 5e-6)), ((.finalWellVolume / drugDispensingData[x,"Transfer.Volume"]) * drugDispensingData[x,"Drug.Concentration"]), sourcePlate$Concentration[grep(drugDispensingData[x,"Drug"], sourcePlate$Drug, fixed = TRUE)])] })
+        # Map the source well by matching the drug name and dose row-wise based on the final well volume and the volume of the dispensed drug 
+        # mapping happens with (.finalWellVolume / "Transfer.Volume") * "Drug.Concentration"
+        # and is matched with the "Drug.Concentration" on the source plate
+        sourcePlate$Well[sourcePlate$Drug == drugDispensingData[x,"Drug"]][mapply(function(x, y) isTRUE(all.equal(x, y, tolerance = 5e-12)), ((baseunit(.finalWellVolume, .simplify = TRUE) / baseunit(drugDispensingData[x,"Transfer.Volume"], refVolDoseList$`Unit(Volume)`[refVolDoseList$Drug == drugDispensingData[x,"Drug"] & refVolDoseList$Dose == drugDispensingData[x,"Drug.Concentration"] & refVolDoseList$Volume == drugDispensingData[x,"Transfer.Volume"]], .simplify=TRUE)) * baseunit(drugDispensingData[x,"Drug.Concentration"], drugDispensingData[x,"Unit"], .simplify=TRUE)), baseunit(sourcePlate$Concentration[sourcePlate$Drug == drugDispensingData[x,"Drug"]], unique(sourcePlate$Unit[sourcePlate$Drug == drugDispensingData[x,"Drug"]]), .simplify=TRUE) )] 
+        
       })
     }
     
@@ -662,10 +672,15 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
   finalDispensingData <- finalDispensingData[with(finalDispensingData, order(Combination.ID)),]
   rownames(finalDispensingData) <- NULL
 
-  
+  } else {
+    
+    finalDispensingData <- dispensingData
+    
+  }
 
   # Check before proceeding if any of the essential data for dispensing is missing before generating and exporting the dispensing file
-  if(any(is.na(finalDispensingData[finalDispensingData$Drug != .addUntreated$name,!(names(finalDispensingData) == "CAS.number")]))){
+  if(all(!identical(sourcePlate, FALSE), any(is.na(finalDispensingData[finalDispensingData$Drug != .addUntreated$name,!(names(finalDispensingData) == "CAS.number")]))) |
+     all(identical(sourcePlate, FALSE), any(is.na(finalDispensingData[finalDispensingData$Drug != .addUntreated$name,!(names(finalDispensingData) %in% c("CAS.number", "Source.Plate.Barcode", "Source.Well"))]))) ){
     warning("One of the essential columns contains missing data.", call. = FALSE, immediate. = TRUE)
     message("Columns: ", paste(names(finalDispensingData)[sapply(finalDispensingData, function(x)any(is.na(x)))], collapse = ", "))
   }else{

@@ -191,7 +191,7 @@ Now we are ready to generate the dispensing data set:
 ```r
 dispensingData <- generateDispensingData(listofCombinations, listofDrugs, listofDoses, listofVolumes, listofCtrls, listofStockConcentrations, sourcePlate,
                                          listofExWells, .ctrlReplicates = 8, .addUntreated = list(name = "Untreated", replicates = 8),
-                                         .finalWellVolume = 5, .plateFormat = 1536, .destinationPlateID = "PID-0521",
+                                         .finalWellVolume = list(volume = 5, unit = "μl"), .plateFormat = 1536, .destinationPlateID = "PID-0521",
                                          .randomizeDispensing = TRUE, .backfilling = TRUE, .probeDispensing = FALSE)
 ```
 A short explanation of the arguments:\

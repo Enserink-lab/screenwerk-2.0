@@ -15,7 +15,7 @@ generateDispensingData(
   listofExWells,
   .ctrlReplicates,
   .addUntreated = FALSE,
-  .finalWellVolume,
+  .finalWellVolume = list(volume, unit),
   .plateFormat,
   .destinationPlateID,
   .randomizeDispensing = TRUE,
