@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # screenwerk: a modular pipeline for drug sensitivity screens
 
 An R package with a modular library for the design and analysis of high-throughput drug combination screens

@@ -24,7 +24,7 @@
 #' The plate maps can be imported either as single files, or from multiple files. It is recommended to specify the file format \emph{\code{.fileFormat}} of the file to import, especially if the folder from which the files are imported contain different file formats.
 #' Alternatively, the function is able to detect any of the supported file formats automatically and import them. Note: for the time being, it is not possible to import or combine plate maps from different file formats at once, but rather one file format at a time.  
 #' 
-#' Please note that this function allows the import plate maps with multiple components, such as \emph{compounds}, \emph{cells} and/or \emph{other}. However, doing so, requires a specific file nomenclature, if the plate maps are being imported from individual .csv files.
+#' Please note that this function allows the import of plate maps with multiple components, such as \emph{compounds}, \emph{cells} and/or \emph{other}. However, doing so, requires a specific file nomenclature, if the plate maps are being imported from individual .csv files.
 #' Those csv files follow a format represented by the plate layout. The first row denotes the column labels (numeric) for a given plate, while the first column denotes the row labels (alphabetic) for a given plate. The actual values for compounds (drugs) and the corresponding concentrations, 
 #' and/or cells are then provided for each well following the layout of the plate type. The plate map for compounds, compound concentrations and cells needs to come from a separate file each. If multiple compounds are found in a given well, a single file for each compound needs to be provided.
 #' 
