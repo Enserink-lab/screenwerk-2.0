@@ -8,10 +8,10 @@ output:
 An R package with a modular library for the design and analysis of high-throughput drug combination screens
 
 
-code name: screenwerk   dev: 2.0.0-1   author: roberthanes
+code name: screenwerk   dev: 2.2.2-1   author: roberthanes
 
 
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/screenwerk-2.0.png?raw=true" width="100%" align="left"></img><br />
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/screenwerk-2.2.png?raw=true" width="100%" align="left"></img><br />
 <br>
 <br>
 
