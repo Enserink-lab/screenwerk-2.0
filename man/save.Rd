@@ -4,7 +4,7 @@
 \alias{save}
 \title{Generic save function}
 \usage{
-save(x, .saveto, .fileformat, .sep, .sets, .labels, .split, .format)
+save(x, .saveto, .fileformat, .sep, .sets, .labels, .split, .by, .format)
 }
 \arguments{
 \item{x}{an object of class 'consolidatedData'.}
@@ -21,11 +21,13 @@ save(x, .saveto, .fileformat, .sep, .sets, .labels, .split, .format)
 
 \item{.split}{\code{logical}; if TRUE, the function will split each set into individual files. The default is FALSE, in which a single file is created.}
 
+\item{.by}{\code{character}; a predefined identifier, which will decide the group by which the dispensing data will be split into individual files.}
+
 \item{.format}{\code{character}; a predefined identifier, which will decide  the format and layout of the dispensing file (see Details, for more information).}
 }
 \description{
 The function \emph{\code{save}} exports data sets to files.
 }
 \details{
-This function provids the generic function \code{\link{save}} for objects of other class.
+This function provides the generic function \code{\link{save}} for objects of other class.
 }

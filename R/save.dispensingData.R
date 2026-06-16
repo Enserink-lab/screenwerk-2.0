@@ -9,7 +9,8 @@
 #' @param .sets \code{numeric}; a value determining the number of sets to create, or logical; if TRUE, the number of sets will depend on the labels provided.
 #' @param .labels \code{vector}; a set of labels to be used for each individual set.
 #' @param .split \code{logical}; if TRUE, the function will split each set into individual files. The default is FALSE, in which a single file is created.
-#' @param .format \code{character}; a predefined identifier, which will decide  the format and layout of the dispensing file (see Details, for more information).
+#' @param .by \code{character}; a predefined identifier, which will decide the group by which the dispensing data will be split into individual files.
+#' @param .format \code{character}; a predefined identifier, which will decide the format and layout of the dispensing file (see Details, for more information).
 #' @param ... further arguments passed to or from other methods.
 #' @method save dispensingData
 #' 
@@ -17,11 +18,16 @@
 #' In certain instances, an experiment requires to be repeated, either to obtain experimental replicates, or due to a failed experiment. In either case, a single dispensing layout can be replicated based to an unlimited number of sets as needed. 
 #' 
 #' The labels can be assigned to each dispensing set either through a predefined selection of labels by using either a set of alphabetic or numeric values. 
-#' This can be accomplished by setting \code{.format} = "alphabetic", or \code{.format} = "numeric", respectively. Otherwise, the labels have to be explicitly stated for each individual set.
+#' This can be accomplished by setting \code{.labels} = "alphabetic", or \code{.labels} = "numeric", respectively. Otherwise, the labels have to be explicitly stated for each individual set.
 #' 
 #' Please note, that if the number of sets is not provided, or explicitly set as \code{FALSE}, any provided labels will be ignored. If the argument is set as TRUE, instead of a numeric value, the number of sets will depend on the number of labels provided. 
 #' In that case, for each label a set will be created. If the number of sets is large than the number of labels provided, the function will result in an error, while if the number of sets is smaller than the number of labels provided, only the first \emph{n} labels will be used.
-#'  
+#' 
+#' The dispensing data can also be split into individual files by setting the argument .split to TRUE. As a default, the data will be split based on the different source plates used.
+#' However, this will only work, if the dispensing data does include a source plate. Alternatively, the dispensing data can also be split by the individual sets that have been defined or by the solvent of the drugs.
+#' Splitting the data by set can be useful, if only a number of sets should be dispensed first, while the remaining sets at a later point in time., depending on the outcome of the first few sets that have been experimentally run.
+#' Splitting the data by solvent can be useful, if the solvents have different evaporation potential and are stored on different source plates.
+#' Both options can be obtained with the argument \code{.by}. The dispensing data can be split either \code{.by} = "sourceplate" (default), \code{.by} = "set", or \code{.by} = "solvent" respectively.
 #' 
 #' Furthermore, depending on how the dispensing files are read and used for dispensing, each source plate is being exported as an individual file with all the sets included, or as a single file containing all the individual replicates.
 #' 
@@ -51,6 +57,15 @@
 #' # Save a set of twenty-six dispensing files labeled from 'A to Z' in the format as required by an 'Echo Acoustic Liquid Handler'
 #' save(dispensingData, .saveto = "../myDispensing/files", .sets = 26, .labels = "alphabetic", .split = TRUE, .format = "E5XX-1366")
 #' 
+#' # Save a set of twelve dispensing files labeled from 'A to L' in the format as required by an 'Echo Acoustic Liquid Handler' and split by set
+#' save(dispensingData, .saveto = "../myDispensing/files", .sets = 12, .labels = "alphabetic", .split = TRUE, .by = "set", .format = "E5XX-1366")
+#' 
+#' # Save a set of twelve dispensing files labeled from 'A to L' in the format as required by an 'Echo Acoustic Liquid Handler' and split by solvent
+#' save(dispensingData, .saveto = "../myDispensing/files", .sets = 12, .labels = "alphabetic", .split = TRUE, .by = "solvent", .format = "E5XX-1366")
+#' 
+#' # Save a set of twelve dispensing files labeled from 'A to L' in the format as required by an 'Echo Acoustic Liquid Handler' and split by source plate
+#' save(dispensingData, .saveto = "../myDispensing/files", .sets = 12, .labels = "alphabetic", .split = TRUE, .by = "sourceplate", .format = "E5XX-1366")
+#' 
 #' Save a single dispensing files with three sets labeled individually containing the full dispensing information
 #' save(dispensingData, .saveto = "../myDispensing/files", .sets = 3, .labels = c("REP1", "REP2", "CTRL"), .split = FALSE, .format = "full")
 #' }}
@@ -63,7 +78,7 @@
 #' 
 #' @export
 
-save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE, .format){
+save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE, .by, .format){
   
   # Check, if the dispensing data has been provided as an object of class S3:dispensingData
   if(missing(x)){stop("Dispensing data missing! Please provide a dispensing data set.", call. = TRUE)}
@@ -96,13 +111,13 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
     stop("in '.sets'. Argument not recognized!\nPlease provide valid number of sets, or provide labels from which to generate a number of sets.", call. = TRUE)
   }
   
-
+  
   
   # Check, if labels have been provided
   # and if they are in the proper combination with the dispensing set flag
   if(all(missing(.labels), is.numeric(.sets))){
     stop("Labels missing! Dispensing sets requested, but no labels provided. Please provide labels, which to be assigned to each disepnsing set.")
-  # Check, if sets are requested, but labels are missing
+    # Check, if sets are requested, but labels are missing
   } else if(all(missing(.labels), .sets)){
     stop("Labels missing! Please provide labels from which to generate a number of sets." )
   }
@@ -110,9 +125,9 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
   # This sections checks, whether custom labels should be used
   # Check, if labels are requested as alphabetic or numeric
   if(all(grepl("alpha", .labels), is.numeric(.sets))){
-  .labels <- c(LETTERS, sapply(LETTERS, function(x) paste0(x, LETTERS)))[1:.sets]
+    .labels <- c(LETTERS, sapply(LETTERS, function(x) paste0(x, LETTERS)))[1:.sets]
   } else if(all(grepl("num|digit", .labels),  is.numeric(.sets))){
-  .labels <- 1:.sets
+    .labels <- 1:.sets
   } else if(all(grepl("alpha|num|digit", .labels), !is.numeric(.sets), .sets != FALSE)) {
     stop("Number of sets missing! The selected argument for labels is only valid with a numeric dispensing set value. \nPlease provide a valid number of sets, or provide labels from which to generate a number of sets." )
   }
@@ -125,7 +140,7 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
       message(length(.labels)-.sets, " more label(s) provided than neccessary. Using the first ", length(.labels)-(length(.labels)-.sets), " labels.")
       .labels <- .labels[1:.sets]
     }
-  # Check, if number of sets has been provided through a logical argument
+    # Check, if number of sets has been provided through a logical argument
   } else if(all(is.vector(.labels), .sets)){
     .sets <- length(.labels)
   } else if(all(is.logical(.labels), any(.sets, is.numeric(.sets)))){
@@ -134,18 +149,53 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
     }
   }
   
-  # Ignore splitting flag, if sets are set to FALSE
-  if(all(any(.sets == FALSE, .sets == 1), .split == TRUE)) { 
-    message("Argument '.split' ignored. Cannot split a single data set.")
-    .split = FALSE 
+  
+  
+  # Check, if splitting of data is requested
+  if(all(.split == TRUE, missing(.by))){
+    message("Argument '.by' not defined. Splitting data set by 'source plate' (default).")
+    .by = "sourceplate"
+    
+  } else if(all(.split == FALSE, missing(.by))){
+    .by = NA
+    
+  } else if(all(.split == TRUE, !missing(.by))){
+    if(!any(grepl(.by, c("set", "sourceplate", "solvent"), fixed = TRUE))){
+      stop("in '.by'. Splitting argument not supported! Please select a supported splitting parameter: 'sourceplate', 'set' or 'solvent'.\nFor more information and help, see 'R Documentation'.", call. = TRUE)
+    }
+    
+  } else if(all(.split == FALSE, !missing(.by))){
+    message("Argument '.by' ignored. Splitting data set have not been requested.")
+    
   }
+  
+  
+  # Check, if the source plate exists
+  if(grepl("sourceplate", .by, fixed = TRUE)){
+    if(is.data.frame(x[["origData"]][["sourcePlate"]])) {
+      .sourcePlate = TRUE
+    } else {
+      message("Splitting by 'source plate' requested, however no source plate was used to generate the dispensing data. The dispensing data will not be split!")
+      .sourcePlate = FALSE
+      .split = FALSE
+    }
+  } else if(grepl("set", .by, fixed = TRUE)){
+    if(all(.sets == FALSE)){
+      message("Splitting by 'set' requested, however no sets have been specified. The dispensing data will not be split!")
+      .split = FALSE
+    } else if (all(.sets == 1)){
+      message("Splitting by 'set' requested, however only one set has been defined. Cannot split a single data set. The dispensing data will not be split!")
+      .split = FALSE
+    }
+  }
+  
   
   # Ignore splitting flag, if sets are set to FALSE
   if(all(.sets == FALSE, any(is.vector(.labels), .labels == TRUE))) { 
     message("Argument '.labels' ignored. Dispensing sets have not been requested.")
-    .split = FALSE 
   }
-
+  
+  
   
   
   # Check, if the format have been specified
@@ -176,7 +226,7 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
   # Replicate the dispensing data based on the number of sets
   # .dispensingData <- cbind(.dispensingData, Dispensing.Set = rep(1:.sets, each = nrow(.dispensingData)))
   # Note: Instead of replicating the data set, the dispensing data is saved multiple times over based on the number of sets requested
-
+  
   # Assign the provided labels to each set
   # if(.sets == TRUE){
   #   .dispensingData <- transform(.dispensingData, Dispensing.Set = .labels[.dispensingData$Dispensing.Set])
@@ -186,7 +236,7 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
   # Build the destination plate barcode from the destination plate id, the dispensing set and the plate number
   # .dispensingData <- transform(.dispensingData, Destination.Plate.Barcode = paste(Destination.Plate.Barcode, Dispensing.Set, Plate.Number, sep = ""))
   
-
+  
   
   # Select columns from the complete dispensing data set based on the dispensing format selected
   .select <- function(.format){
@@ -206,52 +256,67 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
   }
   
   
+  # Replicate dispensing data, if requested and assign a label to each set
+  if(.sets != FALSE){
+    
+    # Replicate the dispensing data based on the number of sets
+    .dispensingData <- cbind(.dispensingData, Dispensing.Set = rep(1:.sets, each = nrow(.dispensingData)))
+    # Note: Instead of replicating the data set, the dispensing data could also be saved multiple times over based on the number of sets requested
+    
+    # Assign the provided labels to each set
+    .dispensingData <- transform(.dispensingData, Dispensing.Set = .labels[.dispensingData$Dispensing.Set])
+    
+    # Build the destination plate barcode from the destination plate id, the dispensing set and the plate number
+    .dispensingData <- transform(.dispensingData, Destination.Plate.Barcode = paste(Destination.Plate.Barcode, Dispensing.Set, Plate.Number, sep = ""))
+    
+  } else {
+    
+    # Build the destination plate barcode from the destination plate id, the dispensing set and the plate number
+    .dispensingData <- transform(.dispensingData, Destination.Plate.Barcode = paste(Destination.Plate.Barcode, "-", Plate.Number, sep = ""))
+    
+  }
+  
+  
   # If splitting the data set into individual file is not requested, the dispensing data is exported as a single data file
   # Otherwise, the data is split based on source plate and replicated based on the number of sets requested
   if(.split){
     
-    # Split the dispensing file the data set by source plate
-    dispensingFile <- split(.dispensingData, .dispensingData$Source.Plate.Barcode)
+    switch(.by,
+           set = {
+             # Split the dispensing data by set
+             dispensingFile <- split(.dispensingData, .dispensingData$Dispensing.Set)
+           },
+           sourceplate = {
+             # Split the dispensing data  by source plate
+             dispensingFile <- split(.dispensingData, .dispensingData$Source.Plate.Barcode)
+             
+           },
+           solvent = {
+             # Replicate the solvent for the controls (which are 'NA' by default)
+             # and split the dispensing data by solvent
+             .dispensingData$Solvent <- ifelse(is.na(.dispensingData$Solvent), .dispensingData$Drug, .dispensingData$Solvent)
+             dispensingFile <- split(.dispensingData, .dispensingData$Solvent)
+             
+           })
     
     for (s in names(dispensingFile)) {
       
       .dispensingFile <- dispensingFile[[s]]
-
-      # Replicate the dispensing data based on the number of sets
-      .dispensingFile <- cbind(.dispensingFile, Dispensing.Set = rep(1:.sets, each = nrow(.dispensingFile)), row.names = NULL)
       
-      # Assign the provided labels to each set
-      .dispensingFile <- transform(.dispensingFile, Dispensing.Set = .labels[.dispensingFile$Dispensing.Set])
-      # Build the destination plate barcode from the destination plate id, the dispensing set and the plate number
-      .dispensingFile <- transform(.dispensingFile, Destination.Plate.Barcode = paste(Destination.Plate.Barcode, Dispensing.Set, Plate.Number, sep = ""))
-      # Select only columns based on the selected dispensing format
+      
       .dispensingFile <- .dispensingFile[.select(.format)]
       
-      
-      message('\r', "> ", "[", s, "/", .sets, "]", " Saving dispensing set: ", s, appendLF = FALSE)
+      message('\r', "> ", "[", which(s %in% names(dispensingFile)), "/", length(names(dispensingFile)), "]", " Saving dispensing set: ", s, appendLF = FALSE)
       
       # Export the corresponding set of the dispensing data to an individual .csv file
-      write.csv(.dispensingFile, file = file.path(exportDirectory, "dispensing files", paste("Dispensing file", "_", .destinationPlateID, "_", s, "_V2", ".csv", sep = "")), row.names = FALSE, quote = FALSE)
+      write.csv(.dispensingFile, file = file.path(.saveto, paste("Dispensing file", "_", .destinationPlateID, "_", s, "_V2", ".csv", sep = "")), row.names = FALSE, quote = FALSE)
     } 
     
-    cat('\r', "Finished saving all dispensing files for ", dispensingData$dispensingID, ".", strrep(" ", 100), '\n', sep = "")
+    cat('\r', "Finished splitting all dispensing files for ", dispensingData$dispensingID, ".", strrep(" ", 100), '\n', sep = "")
+    message("Dispensing files saved to: ", file.path(.saveto), strrep(" ", 100), sep = "")
+    
     
   } else {
-    
-    # Replicate dispensing data, if requested and assign a label to each set
-    if(.sets != FALSE){
-
-      # Replicate the dispensing data based on the number of sets
-      .dispensingData <- cbind(.dispensingData, Dispensing.Set = rep(1:.sets, each = nrow(.dispensingData)))
-      # Note: Instead of replicating the data set, the dispensing data could also be saved multiple times over based on the number of sets requested
-      
-      # Assign the provided labels to each set
-      .dispensingData <- transform(.dispensingData, Dispensing.Set = .labels[.dispensingData$Dispensing.Set])
-      
-      # Build the destination plate barcode from the destination plate id, the dispensing set and the plate number
-      .dispensingData <- transform(.dispensingData, Destination.Plate.Barcode = paste(Destination.Plate.Barcode, Dispensing.Set, Plate.Number, sep = ""))
-      
-    }
     
     # Select only columns based on the selected dispensing format
     .dispensingFile <- .dispensingData[.select(.format)]
@@ -262,6 +327,8 @@ save.dispensingData <- function(x, .saveto, ..., .sets, .labels, .split = FALSE,
     write.csv(.dispensingFile, file = file.path(.saveto, paste("Dispensing file", "_", dispensingData$dispensingID, "_V2", ".csv", sep = "")), row.names = FALSE, quote = FALSE)
     
     cat('\r', "Finished saving all dispensing files for ", dispensingData$dispensingID, ".", strrep(" ", 100), '\n', sep = "")
+    message("Dispensing files saved to: ", file.path(.saveto), strrep(" ", 100), sep = "")
+    
     
   }
   

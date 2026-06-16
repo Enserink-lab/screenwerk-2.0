@@ -16,20 +16,30 @@ Returns an object of class S3:listofCombinations
 }
 \description{
 An complementary component of the modular library \pkg{screenwerk}, invaluable for the initial set-up of a drug sensitivity screen.
-#' \emph{\code{reduceDesign}} is a function that reduces the experimental design by removing combination treatments following a given pattern. 
+\emph{\code{reduceDesign}} is a function that reduces the experimental design by removing combination treatments following a given pattern. 
 This results into a reduced full matrix design, with only combination treatments being dispensed following a given matrix design.
 One reason for utilizing a reduction in treatments is to reduce the experimental load and save on resources, or due to restrictions or limitations in experimental design.
 }
 \details{
 The function \code{reduceDesign} is used to reduced the experimental design of a drug screen by removing combination treatments following a given matrix pattern.
-In that case individual concentrations of drug combinations will not be combined with each other.#' 
+In that case individual concentrations of drug combinations that fall outside the matrix pattern will not be combined with each other. 
 
-\emph{.design} specifies what drug combinations should be removed from a full list of combination treatments to a given matrix design. At current, only the \strong{'X'} matrix design is supported.
+\emph{.design} specifies what drug combinations should be removed from a full list of combination treatments based on a given matrix design. 
+At current, the \strong{'X'} (default) and \strong{'Diagonal'} matrix designs are supported.
+
+The \strong{'Diagonal'} matrix design can be selected in two directions, from top-left to bottom-right with either one of the arguments \strong{'Diagonal:Top-Left'} or \strong{'Diagonal:Bottom-Right'} or
+from top-right to bottom-left with either one of the arguments \strong{'Diagonal:Top-Right'} or \strong{'Diagonal:Bottom-Left'}
 }
 \examples{
 \donttest{\dontrun{
-# Reduce treatments to a given experimental design
-reduceDesign(listofCombinations, .design="X"))
+# Reduce treatments to a 'X' matrix design
+reduceDesign(listofCombinations, .design="X")
+
+# Reduce treatments to a 'diagonal' matrix design from top-left to bottom-right
+reduceDesign(listofCombinations, .design="Diagonal:Top-Left")
+
+# Reduce treatments to a 'diagonal' matrix design from top-right to bottom-left
+reduceDesign(listofCombinations, .design="Diagonal:Top-Right")
 }}
 
 }

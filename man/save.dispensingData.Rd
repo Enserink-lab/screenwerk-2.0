@@ -4,7 +4,7 @@
 \alias{save.dispensingData}
 \title{Saving a set of dispensing files}
 \usage{
-\method{save}{dispensingData}(x, .saveto, ..., .sets, .labels, .split = FALSE, .format)
+\method{save}{dispensingData}(x, .saveto, ..., .sets, .labels, .split = FALSE, .by, .format)
 }
 \arguments{
 \item{x}{an object of class 'dispensingData'.}
@@ -19,7 +19,9 @@
 
 \item{.split}{\code{logical}; if TRUE, the function will split each set into individual files. The default is FALSE, in which a single file is created.}
 
-\item{.format}{\code{character}; a predefined identifier, which will decide  the format and layout of the dispensing file (see Details, for more information).}
+\item{.by}{\code{character}; a predefined identifier, which will decide the group by which the dispensing data will be split into individual files.}
+
+\item{.format}{\code{character}; a predefined identifier, which will decide the format and layout of the dispensing file (see Details, for more information).}
 }
 \description{
 The function \emph{\code{save}} creates a set of dispensing files, which can be used to provide instructions to dispensing robots on how to dispense a set of drugs, controls and samples.
@@ -30,11 +32,16 @@ This function extends the generic function \code{\link{save}} for objects of cla
 In certain instances, an experiment requires to be repeated, either to obtain experimental replicates, or due to a failed experiment. In either case, a single dispensing layout can be replicated based to an unlimited number of sets as needed. 
 
 The labels can be assigned to each dispensing set either through a predefined selection of labels by using either a set of alphabetic or numeric values. 
-This can be accomplished by setting \code{.format} = "alphabetic", or \code{.format} = "numeric", respectively. Otherwise, the labels have to be explicitly stated for each individual set.
+This can be accomplished by setting \code{.labels} = "alphabetic", or \code{.labels} = "numeric", respectively. Otherwise, the labels have to be explicitly stated for each individual set.
 
 Please note, that if the number of sets is not provided, or explicitly set as \code{FALSE}, any provided labels will be ignored. If the argument is set as TRUE, instead of a numeric value, the number of sets will depend on the number of labels provided. 
 In that case, for each label a set will be created. If the number of sets is large than the number of labels provided, the function will result in an error, while if the number of sets is smaller than the number of labels provided, only the first \emph{n} labels will be used.
- 
+
+The dispensing data can also be split into individual files by setting the argument .split to TRUE. As a default, the data will be split based on the different source plates used.
+However, this will only work, if the dispensing data does include a source plate. Alternatively, the dispensing data can also be split by the individual sets that have been defined or by the solvent of the drugs.
+Splitting the data by set can be useful, if only a number of sets should be dispensed first, while the remaining sets at a later point in time., depending on the outcome of the first few sets that have been experimentally run.
+Splitting the data by solvent can be useful, if the solvents have different evaporation potential and are stored on different source plates.
+Both options can be obtained with the argument \code{.by}. The dispensing data can be split either \code{.by} = "sourceplate" (default), \code{.by} = "set", or \code{.by} = "solvent" respectively.
 
 Furthermore, depending on how the dispensing files are read and used for dispensing, each source plate is being exported as an individual file with all the sets included, or as a single file containing all the individual replicates.
 
@@ -60,6 +67,15 @@ The dispensing files will be save as a comma-separated values (csv) file, in com
 \donttest{\dontrun{
 # Save a set of twenty-six dispensing files labeled from 'A to Z' in the format as required by an 'Echo Acoustic Liquid Handler'
 save(dispensingData, .saveto = "../myDispensing/files", .sets = 26, .labels = "alphabetic", .split = TRUE, .format = "E5XX-1366")
+
+# Save a set of twelve dispensing files labeled from 'A to L' in the format as required by an 'Echo Acoustic Liquid Handler' and split by set
+save(dispensingData, .saveto = "../myDispensing/files", .sets = 12, .labels = "alphabetic", .split = TRUE, .by = "set", .format = "E5XX-1366")
+
+# Save a set of twelve dispensing files labeled from 'A to L' in the format as required by an 'Echo Acoustic Liquid Handler' and split by solvent
+save(dispensingData, .saveto = "../myDispensing/files", .sets = 12, .labels = "alphabetic", .split = TRUE, .by = "solvent", .format = "E5XX-1366")
+
+# Save a set of twelve dispensing files labeled from 'A to L' in the format as required by an 'Echo Acoustic Liquid Handler' and split by source plate
+save(dispensingData, .saveto = "../myDispensing/files", .sets = 12, .labels = "alphabetic", .split = TRUE, .by = "sourceplate", .format = "E5XX-1366")
 
 Save a single dispensing files with three sets labeled individually containing the full dispensing information
 save(dispensingData, .saveto = "../myDispensing/files", .sets = 3, .labels = c("REP1", "REP2", "CTRL"), .split = FALSE, .format = "full")

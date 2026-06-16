@@ -10,10 +10,11 @@
 #' @param .sets \code{numeric}; a value determining the number of sets to create, or logical; if TRUE, the number of sets will depend on the labels provided.
 #' @param .labels \code{vector}; a set of labels to be used for each individual set.
 #' @param .split \code{logical}; if TRUE, the function will split each set into individual files. The default is FALSE, in which a single file is created.
+#' @param .by \code{character}; a predefined identifier, which will decide the group by which the dispensing data will be split into individual files.
 #' @param .format \code{character}; a predefined identifier, which will decide  the format and layout of the dispensing file (see Details, for more information).
 #' 
-#' @details This function provids the generic function \code{\link{save}} for objects of other class.
+#' @details This function provides the generic function \code{\link{save}} for objects of other class.
 #' 
 #' 
 #' @export
-save <- function(x, .saveto, .fileformat, .sep, .sets, .labels, .split, .format) UseMethod("save")
+save <- function(x, .saveto, .fileformat, .sep, .sets, .labels, .split, .by, .format) UseMethod("save")

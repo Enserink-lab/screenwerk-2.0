@@ -97,7 +97,7 @@ combineDrugs <- function(listofDrugs, listofDoses, .combineDoses, .noReplicates 
   # If arguments are missing, set them to default
   if(missing(.pairBy)){
     .pairBy = "all"
-    message("Drug pairing argument not specified. Combining all drugs.")
+    message("Drug pairing argument not specified. No specific drug pairing will be applied.")
   } else if (grepl("solvent", .pairBy, ignore.case = TRUE)){
     if(!all(sapply("solvent", function(x) any(grepl(x, names(listofDrugs), ignore.case = TRUE))))){stop("Drugs are set to be combined by solvent. However, solvents not found in the 'listofDrugs'. Please provide a data frame containing a column with the drug name ['Solvent'].", call. = TRUE)}
     .pairBy = "solvent"

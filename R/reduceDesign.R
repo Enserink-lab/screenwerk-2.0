@@ -24,13 +24,13 @@
 #' @examples
 #' \donttest{\dontrun{
 #' # Reduce treatments to a 'X' matrix design
-#' reduceDesign(listofCombinations, .design="X"))
+#' reduceDesign(listofCombinations, .design="X")
 #' 
 #' # Reduce treatments to a 'diagonal' matrix design from top-left to bottom-right
-#' reduceDesign(listofCombinations, .design="Diagonal:Top-Left"))
+#' reduceDesign(listofCombinations, .design="Diagonal:Top-Left")
 #'
 #' # Reduce treatments to a 'diagonal' matrix design from top-right to bottom-left
-#' reduceDesign(listofCombinations, .design="Diagonal:Top-Right"))
+#' reduceDesign(listofCombinations, .design="Diagonal:Top-Right")
 #' }}
 #'
 #' @keywords drug screen reduce design matrix

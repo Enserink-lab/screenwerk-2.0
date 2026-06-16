@@ -72,6 +72,7 @@ baseunit <- function(value, unit, .simplify=FALSE){
     if(all(nchar(unit) == 3, substring(unit, 1, 2) == "da")){
       
       c_value = value * `^`(10,1)
+      suffix_u <- substring(unit, nchar(unit))
       
     } else {
     

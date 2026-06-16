@@ -82,10 +82,18 @@
 #' .plateFormat = 1536, .destinationPlateID = "0521", .randomizeDispensing = TRUE, 
 #' .backfilling = TRUE, .probeDispensing = FALSE)
 #' 
-#' # Probe a potential dispensing for summary statistics
-#' generateDispensingData(listofCombinations, listofCtrls, listofExWells, .ctrlReplicates = 8, 
+#' # Probe a potential dispensing with a full set of files
+#' generateDispensingData(listofCombinations, listofDrugs, listofDoses, listofVolumes, listofCtrls, 
+#' listofStockConcentrations, sourcePlate, listofExWells,  .ctrlReplicates = 8, 
 #' .addUntreated = list(name = "Untreated", replicates = 8), .plateFormat = 1536, 
 #' .probeDispensing = TRUE)
+#' 
+#' # Probe a potential dispensing with a minimum set of files
+#' generateDispensingData(listofCombinations, listofDrugs, NULL, NULL, listofCtrls, 
+#' NULL, NULL, listofExWells, .ctrlReplicates = 8, 
+#' .addUntreated = list(name = "Untreated", replicates = 8), .plateFormat = 1536, 
+#' .probeDispensing = TRUE)
+
 #' }}
 #'
 #' @keywords drug screen drug combination dispensing
@@ -677,10 +685,16 @@ generateDispensingData <- function(listofCombinations, listofDrugs, listofDoses,
     finalDispensingData <- dispensingData
     
   }
+  
+  # Add solvent information for each drug to the dispensing data again for downstream application support
+  # and reorder the columns of the dispensing data
+  finalDispensingData$Solvent <- listofDrugs$SOLVENT[match(finalDispensingData$Drug, listofDrugs$NAME)]
+  finalDispensingData <- finalDispensingData[,c("Combination.ID", "Drug", "CAS.number", "Drug.Concentration", "Unit", "Solvent", "Transfer.Volume", "Source.Plate.Barcode",
+                                      "Source.Well", "Destination.Well", "Destination.Plate.Barcode", "Plate.Number")]
 
   # Check before proceeding if any of the essential data for dispensing is missing before generating and exporting the dispensing file
-  if(all(!identical(sourcePlate, FALSE), any(is.na(finalDispensingData[finalDispensingData$Drug != .addUntreated$name,!(names(finalDispensingData) == "CAS.number")]))) |
-     all(identical(sourcePlate, FALSE), any(is.na(finalDispensingData[finalDispensingData$Drug != .addUntreated$name,!(names(finalDispensingData) %in% c("CAS.number", "Source.Plate.Barcode", "Source.Well"))]))) ){
+  if(all(!identical(sourcePlate, FALSE), any(is.na(finalDispensingData[finalDispensingData$Drug != .addUntreated$name,!(names(finalDispensingData) %in% c("CAS.number", "Solvent"))]))) |
+     all(identical(sourcePlate, FALSE), any(is.na(finalDispensingData[finalDispensingData$Drug != .addUntreated$name,!(names(finalDispensingData) %in% c("CAS.number", "Solvent", "Source.Plate.Barcode", "Source.Well"))]))) ){
     warning("One of the essential columns contains missing data.", call. = FALSE, immediate. = TRUE)
     message("Columns: ", paste(names(finalDispensingData)[sapply(finalDispensingData, function(x)any(is.na(x)))], collapse = ", "))
   }else{

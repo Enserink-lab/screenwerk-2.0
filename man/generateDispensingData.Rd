@@ -122,8 +122,15 @@ listofStockConcentrations, sourcePlate, listofExWells, .ctrlReplicates = 8,
 .plateFormat = 1536, .destinationPlateID = "0521", .randomizeDispensing = TRUE, 
 .backfilling = TRUE, .probeDispensing = FALSE)
 
-# Probe a potential dispensing for summary statistics
-generateDispensingData(listofCombinations, listofCtrls, listofExWells, .ctrlReplicates = 8, 
+# Probe a potential dispensing with a full set of files
+generateDispensingData(listofCombinations, listofDrugs, listofDoses, listofVolumes, listofCtrls, 
+listofStockConcentrations, sourcePlate, listofExWells,  .ctrlReplicates = 8, 
+.addUntreated = list(name = "Untreated", replicates = 8), .plateFormat = 1536, 
+.probeDispensing = TRUE)
+
+# Probe a potential dispensing with a minimum set of files
+generateDispensingData(listofCombinations, listofDrugs, NULL, NULL, listofCtrls, 
+NULL, NULL, listofExWells, .ctrlReplicates = 8, 
 .addUntreated = list(name = "Untreated", replicates = 8), .plateFormat = 1536, 
 .probeDispensing = TRUE)
 }}
