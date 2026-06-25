@@ -1,7 +1,7 @@
 #' Plotting drug-dose response based on the AUC as waterfall plots
 #'
 #' @description
-#' An complementary component of the modular library \pkg{screenwerk} providing a set of kinetic plots for the visualization of drug-dose responses.
+#' An complementary component of the modular library \pkg{screenwerk} providing a set of plots for the visualization of drug-dose responses.
 #' \emph{\code{waterfallPlots}} is a function that generates a set of waterfall plots that provide an overview of the dose-response between drugs and samples based on the area under the curve (AUC).
 #' 
 #' @param data an object of class 'processedData' or 'drm'.

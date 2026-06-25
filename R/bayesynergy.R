@@ -1,12 +1,12 @@
-#' Calculating synergies with bayesynergy
+#' Estimating drug interactions with bayesynergy
 #'
 #' @description
-#' An essential component of the modular library \pkg{metascreen}, and imperative for the analysis of the experimental data from a drug combination screen.
-#' \emph{\code{bayesynergy}} is a function that calculates synergies between two drugs in a drug combination screen based on a bayesian semi-parametric model.
+#' An essential component of the modular library \pkg{screenwerk}, and imperative for the analysis of the experimental data from a drug combination screen.
+#' \emph{\code{bayesynergy}} is a function that estimates drug interactions, such as synergy and antagonism, between two drugs in a drug combination screen based on a bayesian semi-parametric model.
 #' 
 #' @param processedData an object of class 'processedData'.
-#' @param .saveoutput logical; if TRUE, then the output from code{bayesynergy} will be saved to file. The default is FALSE, in which the output is not saved.
-#' @param .plot logical; if TRUE, then plots from code{bayesynergy} will be saved to file. The default is FALSE, in which no plots will be generated.
+#' @param .saveoutput logical; if TRUE, then the output from \code{bayesynergy} will be saved to file. The default is FALSE, in which the output is not saved.
+#' @param .plot logical; if TRUE, then plots from \code{bayesynergy} will be saved to file. The default is FALSE, in which no plots will be generated.
 #' @param .saveto string; path to a folder location where the results are saved to.
 #' 
 #' 

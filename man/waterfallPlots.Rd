@@ -12,7 +12,7 @@ waterfallPlots(data, .saveto)
 \item{.saveto}{string; path to a folder location where the results are saved to.}
 }
 \description{
-An complementary component of the modular library \pkg{screenwerk} providing a set of kinetic plots for the visualization of drug-dose responses.
+An complementary component of the modular library \pkg{screenwerk} providing a set of plots for the visualization of drug-dose responses.
 \emph{\code{waterfallPlots}} is a function that generates a set of waterfall plots that provide an overview of the dose-response between drugs and samples based on the area under the curve (AUC).
 }
 \details{

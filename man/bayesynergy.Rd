@@ -2,16 +2,16 @@
 % Please edit documentation in R/bayesynergy.R
 \name{bayesynergy}
 \alias{bayesynergy}
-\title{Calculating synergies with bayesynergy}
+\title{Estimating drug interactions with bayesynergy}
 \usage{
 bayesynergy(processedData, .saveoutput, .plot, .saveto)
 }
 \arguments{
 \item{processedData}{an object of class 'processedData'.}
 
-\item{.saveoutput}{logical; if TRUE, then the output from code{bayesynergy} will be saved to file. The default is FALSE, in which the output is not saved.}
+\item{.saveoutput}{logical; if TRUE, then the output from \code{bayesynergy} will be saved to file. The default is FALSE, in which the output is not saved.}
 
-\item{.plot}{logical; if TRUE, then plots from code{bayesynergy} will be saved to file. The default is FALSE, in which no plots will be generated.}
+\item{.plot}{logical; if TRUE, then plots from \code{bayesynergy} will be saved to file. The default is FALSE, in which no plots will be generated.}
 
 \item{.saveto}{string; path to a folder location where the results are saved to.}
 }
@@ -19,8 +19,8 @@ bayesynergy(processedData, .saveoutput, .plot, .saveto)
 Returns an class S3 object of type list with the volumetric surfaces (VUS), the EC50s, summary statistics and additional quality parameters, along with a measure of synergy (bayesfactor).
 }
 \description{
-An essential component of the modular library \pkg{metascreen}, and imperative for the analysis of the experimental data from a drug combination screen.
-\emph{\code{bayesynergy}} is a function that calculates synergies between two drugs in a drug combination screen based on a bayesian semi-parametric model.
+An essential component of the modular library \pkg{screenwerk}, and imperative for the analysis of the experimental data from a drug combination screen.
+\emph{\code{bayesynergy}} is a function that estimates drug interactions, such as synergy and antagonism, between two drugs in a drug combination screen based on a bayesian semi-parametric model.
 }
 \details{
 The function \code{bayesynergy} is used to assess the interaction between two drugs across their dose ranges based on a bayesian semi-parametric model.
