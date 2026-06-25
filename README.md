@@ -1,6 +1,7 @@
 <img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/develop/doc/logo.png?raw=true" width="100%" align="left"></img><br />
-<br />
-<br />
+<br />  \
+<br />  \
+
 # screenwerk: a modular pipeline for drug sensitivity screens
 
 An R package with a modular library for the design and analysis of high-throughput drug combination screens
@@ -10,8 +11,9 @@ code name: screenwerk   dev: 2.2.2-1   author: roberthanes
 
 
 <img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/screenwerk-2.2.png?raw=true" width="100%" align="left"></img><br />
-<br />
-<br />
+<br />  \
+<br />  \
+
 The R-package consists of individual functions that can be used to (a) set-up a screen and generate a dispensing file, (b) to read raw measurements and consolidate different data sets, (c) perform a quality control, (d) analyze, (e) report and visualize the results of a drug combination screen.
 
 #### INSTALLATION
