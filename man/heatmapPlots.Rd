@@ -25,10 +25,10 @@ Files are saved either to the specified location or the default working environm
 }
 \examples{
 \donttest{\dontrun{
-# Plot kinetic dose responses from processed data
+# Plot heatmap of single drug responses from processed data
 heatmapPlots(processedData, .export = c("dendrogram", "rownames"), .saveto = "path/to/folder/")
 
-# Plot kinetic dose responses from the dose response model
+# Plot heatmap of single drug responses from the dose response model
 heatmapPlots(doseRespModel, .saveto = "path/to/folder/")
 }}
 

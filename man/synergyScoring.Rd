@@ -24,7 +24,7 @@ An essential component of the modular library \pkg{metascreen}, and imperative f
 }
 \details{
 The function \code{synergyScoring} is used to score and rank drug interactions between drugs of a combination treatment.
-if plotting is set to TRUE, the function will generate three types of plots: (1) one in which all drug synergy and antagonism scores are plotted for each sample, (2) another one 
+If plotting is set to TRUE, the function will generate three types of plots: (1) one in which all drug synergy and antagonism scores are plotted for each sample, (2) another one 
 in which only the synergy score is plotted by drug fore each sample and (3) one in which only synergy and antagonism scores are plotted for each individual drug.
 
 Files are saved either to the specified location or the default working environment, with the corresponding folder structure: 'results/synergyscores/bayesynergy' and 'results/graphs/synergyscores/bayesynergy'
