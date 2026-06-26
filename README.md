@@ -48,7 +48,7 @@ This list can be provided in a wide format, as it would be done using Microsoft 
 This file can look as shown below:
 &nbsp;
 
-<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/develop/doc/figures/doses-wide.png?raw=true" align="left"></img>
+<img src="https://github.com/Enserink-lab/screenwerk-2.0/blob/main/doc/figures/doses-wide.png?raw=true" align="left"></img>
 &nbsp;
 
 
