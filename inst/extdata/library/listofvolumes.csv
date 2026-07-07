@@ -1,62 +1,58 @@
-Number,Drug,Volume 6th Dose,Volume 5th Dose,Volume 4th Dose,Volume 3rd Dose,Volume 2nd Dose,Volume 1st Dose,Unit
-2,Venetoclax,10,5,5,5,5,5,nl
-13,Methotrexate,10,5,5,5,5,5,nl
-23,Cladribine,10,5,5,5,5,5,nl
-24,Everolimus,10,5,5,5,5,5,nl
-28,Cytarabine,10,5,5,5,5,5,nl
-31,Daunorubicin,10,5,5,5,5,5,nl
-32,Lenalidomide,10,5,5,5,5,5,nl
-34,GSK 525762A (I-BET 762),10,5,5,5,5,5,nl
-35,Bosutinib,10,5,5,5,5,5,nl
-36,CCT196969,10,5,5,5,5,5,nl
-37,Entinostat (MS-275),10,5,5,5,5,5,nl
-38,Mocetinostat,10,5,5,5,5,5,nl
-40,Quizartinib,10,5,5,5,5,5,nl
-41,Amsacrine,10,5,5,5,5,5,nl
-43,ATRA,10,5,5,5,5,5,nl
-47,Ponatinib,10,5,5,5,5,5,nl
-52,Azacitidine,10,5,5,5,5,5,nl
-53,Decitabine,10,5,5,5,5,5,nl
-54,Bardoxolone Methyl,10,5,5,5,5,5,nl
-55,SNS-314 Mesylate,10,5,5,5,5,5,nl
-57,GSK2879552,10,5,5,5,5,5,nl
-58,Entospletinib (GS-9973),10,5,5,5,5,5,nl
-59,Vorasidenib (AG-881),10,5,5,5,5,5,nl
-61,Ibrutinib,10,5,5,5,5,5,nl
-63,LY2603618,10,5,5,5,5,5,nl
-64,YM155,10,5,5,5,5,5,nl
-66,Galunisertib (LY2157299),10,5,5,5,5,5,nl
-67,GDC-0449 (Vismodegib),10,5,5,5,5,5,nl
-68,AG-221 (Enasidenib),10,5,5,5,5,5,nl
-69,CHIR-98014,10,5,5,5,5,5,nl
-70,Volasertib,10,5,5,5,5,5,nl
-71,APO866 (FK866),10,5,5,5,5,5,nl
-72,NSC348884,10,5,5,5,5,5,nl
-73,Gilteritinib (ASP-2215),10,5,5,5,5,5,nl
-74,FK506 (Tacrolimus),10,5,5,5,5,5,nl
-75,Tipifarnib,10,5,5,5,5,5,nl
-77,MK-2206,10,5,5,5,5,5,nl
-78,Ro 5-3335,10,5,5,5,5,5,nl
-79,Abemaciclib mesylate (LY2835219),10,5,5,5,5,5,nl
-80,IRAK4 Inhibitor (Compound 26),10,5,5,5,5,5,nl
-82,Olaparib (AZD2281),10,5,5,5,5,5,nl
-83,Torin2,10,5,5,5,5,5,nl
-84,Dexamethasone (DHAP),10,5,5,5,5,5,nl
-89,Avagacestat,10,5,5,5,5,5,nl
-90,EC-70124,10,5,5,5,5,5,nl
-91,Idelalisib,10,5,5,5,5,5,nl
-92,Trametinib/Mekinist,10,5,5,5,5,5,nl
-93,SGC 0946,10,5,5,5,5,5,nl
-94,MI463,10,5,5,5,5,5,nl
-95,Panobinostat (LBH589),10,5,5,5,5,5,nl
-96,Bortezomib,10,5,5,5,5,5,nl
-98,WP1130,10,5,5,5,5,5,nl
-100,SB 203580,10,5,5,5,5,5,nl
-101,Lapatinib,10,5,5,5,5,5,nl
-102,Ruxolitinib,10,5,5,5,5,5,nl
-103,Chloroquine diphosphate salt,10,5,5,5,5,5,nl
-104,Ganetespib,10,5,5,5,5,5,nl
-106,Vemurafenib,10,5,5,5,5,5,nl
-107,Sapatinib,10,5,5,5,5,5,nl
-108,DJ34,10,5,5,5,5,5,nl
-115,WM-8014,10,5,5,5,5,5,nl
+Number;Drug;6th Volume;5th Volume;4th Volume;3rd Volume;2nd Volume;1st Volume;Unit
+1;Afatinib (BIBW2992);10;5;5;5;5;5;nl
+2;Binimetinib (MEK162);10;5;5;5;5;5;nl
+3;Cerdulatinib (PRT062070, PRT2070);10;5;5;5;5;5;nl
+4;Cobimetinib;10;5;5;5;5;5;nl
+5;Crizotinib (PF-02341066);10;5;5;5;5;5;nl
+6;Dabrafenib ;10;5;5;5;5;5;nl
+7;Dasatinib (BMS-354825);10;5;5;5;5;5;nl
+8;Defactinib (VS-6063, PF-04554878);10;5;5;5;5;5;nl
+9;Dexamethasone;10;5;5;5;5;5;nl
+10;Entrektinib (RXDX-101);10;5;5;5;5;5;nl
+11;Erlotinib;10;5;5;5;5;5;nl
+12;Flavopiridol (L86-8275) HCl;10;5;5;5;5;5;nl
+13;Fludarabine (Fludara);10;5;5;5;5;5;nl
+14;Gemcitabine (LY-188011) HCl;10;5;5;5;5;5;nl
+15;Lapatinib Ditosylate (Tykerb);10;5;5;5;5;5;nl
+16;Metformin;10;5;5;5;5;5;nl
+17;MK-2206 2HCl;10;5;5;5;5;5;nl
+18;Navitoclax (ABT-263);10;5;5;5;5;5;nl
+19;Niclosamide (BAY2353);10;5;5;5;5;5;nl
+20;Niraparib (MK-4827);10;5;5;5;5;5;nl
+21;Olaparib (AZD2281);10;5;5;5;5;5;nl
+22;Paclitaxel (NSC 125973);10;5;5;5;5;5;nl
+23;Palbociclib;10;5;5;5;5;5;nl
+24;Panobinostat (LBH589);10;5;5;5;5;5;nl
+25;Pictilisib (GDC-0941);10;5;5;5;5;5;nl
+26;Ruxolitinib (INCB018424);10;5;5;5;5;5;nl
+27;Selumetinib (AZD6244);10;5;5;5;5;5;nl
+28;Sorafenib (Nexavar);10;5;5;5;5;5;nl
+29;Temsirolimus (CCI-779);10;5;5;5;5;5;nl
+30;Trametinib (GSK1120212);10;5;5;5;5;5;nl
+31;Vemurafenib (PLX4032);10;5;5;5;5;5;nl
+32;Venetoclax (ABT-199);10;5;5;5;5;5;nl
+33;Vinorelbine ditartrate (Navelbine);10;5;5;5;5;5;nl
+34;Abemaciclib (LY2835219);10;5;5;5;5;5;nl
+35;Adavosertib (MK-1775);10;5;5;5;5;5;nl
+36;Alectinib (CH5424802);10;5;5;5;5;5;nl
+37;Alpelisib (BYL719);10;5;5;5;5;5;nl
+38;AZD7762;10;5;5;5;5;5;nl
+39;AZD8055;10;5;5;5;5;5;nl
+40;Cucurbitacin I (JSI-124);10;5;5;5;5;5;nl
+41;Everolimus (RAD001);10;5;5;5;5;5;nl
+42;Flunarizine 2HCl;10;5;5;5;5;5;nl
+43;Gedatolisib (PKI-587);10;5;5;5;5;5;nl
+44;Idasanutlin (RG-7388);10;5;5;5;5;5;nl
+45;LJH-685;10;5;5;5;5;5;nl
+46;Luminespib (NVP-AUY922);10;5;5;5;5;5;nl
+47;Nutlin-3a;10;5;5;5;5;5;nl
+48;Quinacrine;10;5;5;5;5;5;nl
+49;Selpercatinib (LOXO-292);10;5;5;5;5;5;nl
+50;Simvastatin (MK 733);10;5;5;5;5;5;nl
+51;Tamoxifen (ICI 46474);10;5;5;5;5;5;nl
+52;Vismodegib (GDC-0449);10;5;5;5;5;5;nl
+53;Volasertib (BI 6727);10;5;5;5;5;5;nl
+54;Carboplatin (NSC 241240);10;5;5;5;5;5;nl
+55;TNKS1/2 inhibitor (OM-153);10;5;5;5;5;5;nl
+56;Mebendalzole;10;5;5;5;5;5;nl
+57;Pertuzumab (anti-HER2);10;5;5;5;5;5;nl
