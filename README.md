@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/Enserink-lab/screenwerk-2.0/refs/heads/develop/doc/logo.png){fig-alt="screenwerl-2.0"}
+![](https://raw.githubusercontent.com/Enserink-lab/screenwerk-2.0/refs/heads/develop/doc/logo.png)
 
 # screenwerk: a modular pipeline for drug sensitivity screens
 
@@ -57,7 +57,6 @@ First we need a list of drugs with all the doses to be used in the screen, which
 Now we need to import this file into R using the code below:
 
 ```{r, eval = FALSE}
-#| echo: false
 listofDoses <- read.csv(file=file.path("inst/extdata/library/listofdoses.csv"), check.names=FALSE, header=TRUE, stringsAsFactors=FALSE, na.strings="", sep=",", dec=".", skip=0)
 ```
 
@@ -173,7 +172,7 @@ listofCombinations <- combineDrugs(
 
 In the case of grouping by solvent, drugs dissolved in the same solvent (belonging to the same solvent group) will be combined with each other, but not with drugs belonging to a different solvent group. This grouping ensures that drugs are not combined (dispensed into the same well) with incompatible solvents that migtht have an adverse impact on the activity and effect of the other drug.
 
-In any other case, drugs can be paired by individual groups specified by the user. This allows selective and custom combinations of drugs. This can be accomplished by providing a column in the list of drugs with a custom column \['GROUP'\] containing the individual groups, as shown in an example below.
+In any other case, drugs can be paired by individual groups specified by the user. This allows selective and custom combinations of drugs. This can be accomplished by providing a column in the list of drugs with a custom column $$'GROUP'$$ containing the individual groups, as shown in an example below.
 
 ![](https://raw.githubusercontent.com/Enserink-lab/screenwerk-2.0/refs/heads/develop/doc/figures/drug-groups.png)
 
@@ -343,7 +342,8 @@ The plate map of the source plate will be used to create instructions for the pi
 
 ```{r, eval = FALSE}
 sourcePlate <- read.csv2(file=file.path("inst/extdata/library/sourcePlate.csv"), check.names=FALSE, header=TRUE, stringsAsFactors=FALSE, na.strings="", sep=",", dec=".", skip=0)
-
+```
+```{r, eval = FALSE}
 sourcePlate
 ```
 
