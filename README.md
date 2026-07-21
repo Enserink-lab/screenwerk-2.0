@@ -343,6 +343,7 @@ The plate map of the source plate will be used to create instructions for the pi
 ```{r, eval = FALSE}
 sourcePlate <- read.csv2(file=file.path("inst/extdata/library/sourcePlate.csv"), check.names=FALSE, header=TRUE, stringsAsFactors=FALSE, na.strings="", sep=",", dec=".", skip=0)
 ```
+
 ```{r, eval = FALSE}
 sourcePlate
 ```
@@ -405,11 +406,11 @@ Please note that this function allows the import of plate maps with multiple com
 
 The .csv file with the plate map of the drugs could look like
 
-![](images/clipboard-557149715.png)
+![](https://raw.githubusercontent.com/Enserink-lab/screenwerk-2.0/refs/heads/develop/doc/figures/sourceplate-drugs-csv.png)
 
 while the corresponding drug concentrations
 
-![](images/clipboard-2498834366.png)
+![](https://raw.githubusercontent.com/Enserink-lab/screenwerk-2.0/refs/heads/develop/doc/figures/sourceplate-drugconcentrations-csv.png)
 
 **Group of components across multiple source plates**
 
@@ -853,7 +854,6 @@ This module is a complementary component of screenwerk providing a set of custom
 
 ```{r, eval = FALSE}
 customPlotting(processedData, doseRespModel, .saveto = "path/to/folder/")
-
 ```
 
 This module is meant as a library that contains a set of custom plot that have been requested over time by different users. Additional requests for custom plots can be added to this function over time. This function is meant to be used for the generation of additional plots to the DRM, in order to provide an overview of the responses of all treatments between individual drugs and samples. This is of particularly benefit for large drug screens in which a large number of drugs and samples have been screened.
