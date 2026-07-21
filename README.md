@@ -8,7 +8,7 @@ An R package with a modular library for the design and analysis of high-throughp
 
 code name: screenwerk dev: 2.2.2-1 author: roberthanes
 
-![](https://raw.githubusercontent.com/Enserink-lab/screenwerk-2.0/refs/heads/main/doc/screenwerk-2.2.png)
+![](https://raw.githubusercontent.com/Enserink-lab/screenwerk-2.0/refs/heads/develop/doc/screenwerk-2.2.png)
 
 The R-package consists of individual modules that can be used to (a) set-up a screen and generate a dispensing file, (b) to read raw measurements and consolidate different data sets, (c) perform a quality control, (d) analyze, (e) report and visualize the results of a drug (combination) screen.
 
