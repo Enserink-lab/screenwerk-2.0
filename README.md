@@ -944,7 +944,7 @@ After the single drug treatments have been analyzed and assessed, the anlysis ca
 bayesdata <- bayesynergy(processedData, .saveoutput = TRUE, .plot = TRUE, .saveto = "path/to/folder/")
 ```
 
-The function `bayesynergy` is used to assess the interaction between two drugs across their dose ranges based on a bayesian semi-parametric model. The analysis is based on the package [`bayesynergy`](http://127.0.0.1:15262/help/library/bayesynergy/help/bayesynergy) as described in the original paper by Rønneberg, 2021, Brief Bioinform (see references).
+The function `bayesynergy` is used to assess the interaction between two drugs across their dose ranges based on a bayesian semi-parametric model. The analysis is based on the package [`bayesynergy`] as described in the original paper by Rønneberg, 2021, Brief Bioinform (see references).
 
 With the argument `.saveoutput` = `TRUE` the function offers to save the output from `bayesynergy` to a file. The default is `FALSE`, by which the output is not saved. Furthermore, a set of plots can be generated with the argument `.plot` = `TRUE` and saved to the folder location specified with `.saveto`. The default is `FALSE`, by which no plots are generated.
 
