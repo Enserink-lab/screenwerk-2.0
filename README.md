@@ -534,7 +534,7 @@ This output can then be assigned to a variable or exported as a .csv file.
 ```{r, eval = FALSE}
 finalDispensingData <- print(dispensingData)
 
-write.csv2(finalDispensingData, file = file.path(exportDirectory, paste("Dispensing Data", "_", .destinationPlateID, "_V1", ".csv", sep = "")), row.names = FALSE, quote = FALSE)
+write.csv2(finalDispensingData, file = file.path("../myExportFiles/files", paste("Dispensing Data", "_", .destinationPlateID, "_V1", ".csv", sep = "")), row.names = FALSE, quote = FALSE)
 ```
 
 **Export the dispensing data to dispensing** **files**
@@ -655,7 +655,7 @@ Once the drug screen has been run and all the screen plates have been read, we c
 The raw measurements can be read with
 
 ```{r, eval = FALSE}
-rfs <- readRAWData(.readfrom = dataDirectory, .fileformat = c(".csv", ".txt"), .format = "EnVision")
+rfs <- readRAWData(.readfrom = file.path("inst/extdata/raw/"), .fileformat = c(".csv", ".txt"), .format = "EnVision")
 ```
 
 The function `readRAWData` is used to read raw measurement files from selected plate readers. It supports the most common text-based file types (.txt, .csv) in various export-formats. Those formats are machine specific and follow a proprietary layout.
@@ -671,7 +671,7 @@ The specific format can then be selected with either `.format` = `"EnVision"` or
 Alternatively, the data can be provided in a raw data format, independent of the export-format and the plate reader used. In that case the raw measurements are provided as a plate layout.
 
 ```{r, eval = FALSE}
-rfs <- readRAWData(.readfrom = dataDirectory, .fileformat = c(".csv", ".txt"), .format = "raw")
+rfs <- readRAWData(.readfrom = file.path("inst/extdata/raw/"), .fileformat = c(".csv", ".txt"), .format = "raw")
 ```
 
 With the raw measurements read, we can now build the final reference data set, used for downstream analysis of the drug sensitivity screen. This can be achieved by consolidating the raw measurements with the dispensing data.
@@ -679,7 +679,7 @@ With the raw measurements read, we can now build the final reference data set, u
 Before we can do that, we need to import a barcode reference list with the names of the samples used in the drug screen and by associating them to the corresponding plate id and set.
 
 ```{r, eval = FALSE}
-.barcodeReference <- read.csv(file=file.path(libDirectory, "platebarcode.csv"), check.names=FALSE, header=TRUE, stringsAsFactors=FALSE, colClasses=c("PlateID"="character"), comment.char = "#", blank.lines.skip	= TRUE, na.strings="", sep=",", dec=".", skip=0)
+.barcodeReference <- read.csv(file=file.path("inst/extdata/library/", "platebarcode.csv"), check.names=FALSE, header=TRUE, stringsAsFactors=FALSE, colClasses=c("PlateID"="character"), comment.char = "#", blank.lines.skip	= TRUE, na.strings="", sep=",", dec=".", skip=0)
 ```
 
 The imported barcode reference could look like shown below.
@@ -724,7 +724,7 @@ Now that we have the raw measurements annotated, we can use them to run the qual
 The function `qc` is used to assess the quality of a drug sensitivity screen by looking at the variance and signal distribution between individual controls.
 
 ```{r, eval = FALSE}
-qcdata <- qc(consolidatedData, .saveto = file.path(resultDirectory), .ctrls=list(positive = "BzCl", negative = "all"), .qcMethod = "all")
+qcdata <- qc(consolidatedData, .saveto = file.path("../myResultFiles/files"), .ctrls=list(positive = "BzCl", negative = "all"), .qcMethod = "all")
 ```
 
 The QC module consists of different quality control methods, which all offer a different approach to the assessment of the data and consequently offer a different perspective on the quality of the data.
